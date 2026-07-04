@@ -29,7 +29,7 @@ export async function cancelPendingVehicleBookingAction(formData: FormData) {
         status: VehicleBookingStatus.CANCELLED,
         cancelledByUserId: user.id,
         cancelledAt: new Date(),
-        cancelledReason: "Cancelled by requester before review.",
+        cancelledReason: "ผู้ขอยกเลิกก่อนการพิจารณา",
       },
     });
 
@@ -46,8 +46,8 @@ export async function cancelPendingVehicleBookingAction(formData: FormData) {
       admins.map((admin) =>
         createNotification(tx, {
           recipientUserId: admin.id,
-          title: "Vehicle request cancelled",
-          message: `${user.name} cancelled a pending vehicle request.`,
+          title: "คำขอใช้รถถูกยกเลิก",
+          message: `${user.name} ยกเลิกคำขอใช้รถที่รออนุมัติ`,
           module: ModuleName.VEHICLE_BOOKING,
           entityType: "vehicle_booking",
           entityId: updated.id,

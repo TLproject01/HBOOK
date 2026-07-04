@@ -102,11 +102,11 @@ export async function updateOwnPendingVehicleBooking(
     });
 
     if (input.passengerCount > vehicle.seatCapacity) {
-      throw new Error("Passenger count exceeds vehicle seat capacity.");
+      throw new Error("จำนวนผู้โดยสารเกินจำนวนที่นั่งของรถ");
     }
 
     if (vehicle.driverOption === DriverOption.SELF_DRIVE_ONLY && input.needDriver) {
-      throw new Error("This vehicle is self-drive only.");
+      throw new Error("รถคันนี้เป็นรถขับเองเท่านั้น");
     }
 
     const available = await checkVehicleAvailable(
@@ -117,7 +117,7 @@ export async function updateOwnPendingVehicleBooking(
     );
 
     if (!available) {
-      throw new Error("Vehicle is unavailable for the selected time range.");
+      throw new Error("รถไม่ว่างในช่วงเวลาที่เลือก");
     }
 
     const updated = await tx.vehicleBooking.update({
@@ -165,8 +165,8 @@ export async function updateOwnPendingVehicleBooking(
         tx.notification.create({
           data: {
             recipientUserId: admin.id,
-            title: "Vehicle request updated",
-            message: `${input.user.name} updated a pending vehicle request.`,
+            title: "คำขอใช้รถถูกแก้ไข",
+            message: `${input.user.name} แก้ไขคำขอใช้รถที่รออนุมัติ`,
             module: ModuleName.VEHICLE_BOOKING,
             entityType: "vehicle_booking",
             entityId: booking.id,

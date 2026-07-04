@@ -87,7 +87,7 @@ async function cancelRoomBooking(input: {
     const cancelledAt = now();
 
     if (booking.startAt <= cancelledAt) {
-      throw new Error("Only future room bookings can be cancelled.");
+      throw new Error("ยกเลิกได้เฉพาะการจองห้องในอนาคต");
     }
 
     const updated = await tx.roomBooking.update({
@@ -104,8 +104,8 @@ async function cancelRoomBooking(input: {
       await tx.notification.create({
         data: {
           recipientUserId: booking.requesterUserId,
-          title: "Room booking cancelled",
-          message: `Your booking for ${booking.roomNameSnapshot} was cancelled: ${input.cancelReason}`,
+          title: "รายการจองห้องถูกยกเลิก",
+          message: `รายการจองห้อง ${booking.roomNameSnapshot} ถูกยกเลิก: ${input.cancelReason}`,
           module: ModuleName.ROOM_BOOKING,
           entityType: "room_booking",
           entityId: booking.id,

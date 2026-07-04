@@ -13,12 +13,12 @@ export async function uploadImageToStorage(
   folder: string,
 ) {
   if (!allowedImageTypes.has(file.type)) {
-    throw new Error("Only JPEG, PNG, and WebP images are allowed.");
+    throw new Error("รองรับเฉพาะไฟล์รูป JPEG, PNG และ WebP");
   }
 
   const maxSizeMb = Number(process.env.UPLOAD_MAX_SIZE_MB ?? "10");
   if (file.size > maxSizeMb * 1024 * 1024) {
-    throw new Error(`Image must be ${maxSizeMb} MB or smaller.`);
+    throw new Error(`รูปภาพต้องมีขนาดไม่เกิน ${maxSizeMb} MB`);
   }
 
   const extension = file.name.split(".").pop()?.toLowerCase() ?? "bin";

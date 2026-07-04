@@ -25,11 +25,11 @@ export default async function DepartmentsPage() {
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-            Admin
+            ผู้ดูแลระบบ
           </p>
-          <h1 className="mt-2 text-3xl font-semibold text-slate-950">Departments</h1>
+          <h1 className="mt-2 text-3xl font-semibold text-slate-950">หน่วยงาน</h1>
           <p className="mt-2 text-sm text-slate-600">
-            Manage departments used by profiles, bookings, reports, and snapshots.
+            จัดการรายชื่อหน่วยงานที่ใช้กับผู้ใช้งาน รายการจอง และรายงาน
           </p>
         </div>
       </div>
@@ -43,10 +43,10 @@ export default async function DepartmentsPage() {
             <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
               <Building2 aria-hidden className="h-5 w-5" />
             </span>
-            <h2 className="text-base font-semibold text-slate-950">Create department</h2>
+            <h2 className="text-base font-semibold text-slate-950">เพิ่มหน่วยงาน</h2>
           </div>
           <label className="mt-5 block">
-            <span className="text-sm font-medium text-slate-700">Department name</span>
+            <span className="text-sm font-medium text-slate-700">ชื่อหน่วยงาน</span>
             <input
               className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
               name="name"
@@ -58,7 +58,7 @@ export default async function DepartmentsPage() {
             className="mt-5 w-full rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
             type="submit"
           >
-            Create department
+            เพิ่มหน่วยงาน
           </button>
         </form>
 
@@ -66,10 +66,10 @@ export default async function DepartmentsPage() {
           <table className="w-full border-collapse text-left text-sm">
             <thead className="bg-slate-50 text-xs uppercase tracking-[0.12em] text-slate-500">
               <tr>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Users</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3 text-right">Actions</th>
+                <th className="px-4 py-3">ชื่อหน่วยงาน</th>
+                <th className="px-4 py-3">ผู้ใช้งาน</th>
+                <th className="px-4 py-3">สถานะ</th>
+                <th className="px-4 py-3 text-right">จัดการ</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200">
@@ -89,14 +89,14 @@ export default async function DepartmentsPage() {
                         className="rounded-md border border-slate-300 px-3 py-2 text-xs font-medium text-slate-700"
                         type="submit"
                       >
-                        Save
+                        บันทึก
                       </button>
                     </form>
                   </td>
                   <td className="px-4 py-3 text-slate-600">{department._count.users}</td>
                   <td className="px-4 py-3">
                     <span className="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
-                      {department.isActive ? "Active" : "Inactive"}
+                      {department.isActive ? "ใช้งานอยู่" : "ปิดใช้งาน"}
                     </span>
                   </td>
                   <td className="px-4 py-3">
@@ -105,7 +105,7 @@ export default async function DepartmentsPage() {
                         <input name="id" type="hidden" value={department.id} />
                         <button
                           className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-300 text-slate-700"
-                          title={department.isActive ? "Deactivate" : "Activate"}
+                          title={department.isActive ? "ปิดใช้งาน" : "เปิดใช้งาน"}
                           type="submit"
                         >
                           <Power aria-hidden className="h-4 w-4" />
@@ -116,7 +116,7 @@ export default async function DepartmentsPage() {
                         <button
                           className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-red-200 text-red-700 disabled:cursor-not-allowed disabled:opacity-40"
                           disabled={department._count.users > 0}
-                          title="Soft delete"
+                          title="ลบหน่วยงาน"
                           type="submit"
                         >
                           <Trash2 aria-hidden className="h-4 w-4" />

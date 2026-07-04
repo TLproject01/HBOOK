@@ -124,7 +124,7 @@ describe("room booking move service", () => {
       type: "notification.create",
       data: expect.objectContaining({
         recipientUserId: "requester-1",
-        title: "Room booking moved",
+        title: "รายการจองห้องถูกปรับกำหนดการ",
       }),
     });
     expect(tx.writes).toContainEqual({
@@ -152,7 +152,7 @@ describe("room booking move service", () => {
         userId: "requester-1",
         ...nextRange,
       }),
-    ).rejects.toThrow("Only future room bookings can be moved.");
+    ).rejects.toThrow("ย้ายได้เฉพาะการจองห้องในอนาคต");
   });
 
   it("rejects moving when the target room is unavailable excluding the current booking", async () => {
@@ -172,7 +172,7 @@ describe("room booking move service", () => {
         userId: "requester-1",
         ...nextRange,
       }),
-    ).rejects.toThrow("Room is unavailable for the selected time range.");
+    ).rejects.toThrow("ห้องประชุมไม่ว่างในช่วงเวลาที่เลือก");
 
     expect(availabilityCalls[0]).toEqual([tx, "room-2", nextRange, "booking-1"]);
   });

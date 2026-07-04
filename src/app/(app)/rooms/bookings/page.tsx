@@ -23,11 +23,11 @@ export default async function MyRoomBookingsPage() {
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-          Meeting rooms
+          ห้องประชุม
         </p>
-        <h1 className="mt-2 text-3xl font-semibold text-slate-950">My room bookings</h1>
+        <h1 className="mt-2 text-3xl font-semibold text-slate-950">การจองห้องของฉัน</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Future approved room bookings can be cancelled when plans change.
+          ตรวจสอบ ย้ายเวลา หรือยกเลิกการจองห้องประชุมล่วงหน้า
         </p>
       </div>
 
@@ -46,10 +46,10 @@ export default async function MyRoomBookingsPage() {
                   <StatusBadge status={booking.status} />
                 </div>
                 <p className="mt-2 text-sm text-slate-600">
-                  {formatDateTime(booking.startAt)} to {formatDateTime(booking.endAt)}
+                  {formatDateTime(booking.startAt)} ถึง {formatDateTime(booking.endAt)}
                 </p>
                 <p className="mt-2 text-sm text-slate-600">
-                  Contact: {booking.contactName} - {booking.contactPhone}
+                  ผู้ประสานงาน: {booking.contactName} - {booking.contactPhone}
                 </p>
               </div>
 
@@ -63,7 +63,7 @@ export default async function MyRoomBookingsPage() {
                       className="inline-flex w-full items-center justify-center rounded-md border border-teal-200 px-3 py-2 text-sm font-medium text-teal-700"
                       type="submit"
                     >
-                      Move booking
+                      ย้ายการจอง
                     </button>
                   </form>
                   <form action={cancelOwnRoomBookingAction} className="space-y-3">
@@ -71,7 +71,7 @@ export default async function MyRoomBookingsPage() {
                     <textarea
                       className="min-h-20 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
                       name="cancelReason"
-                      placeholder="Cancel reason"
+                      placeholder="เหตุผลที่ยกเลิก"
                       required
                     />
                     <button
@@ -79,7 +79,7 @@ export default async function MyRoomBookingsPage() {
                       type="submit"
                     >
                       <XCircle aria-hidden className="h-4 w-4" />
-                      Cancel booking
+                      ยกเลิกการจอง
                     </button>
                   </form>
                 </div>
@@ -101,18 +101,21 @@ function RoomMoveFields({
 }) {
   return (
     <>
-      <select
+      <label className="block">
+        <span className="sr-only">ห้องประชุม</span>
+        <select
         className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
         defaultValue={booking.roomId}
         name="roomId"
         required
-      >
-        {rooms.map((room) => (
-          <option key={room.id} value={room.id}>
-            {room.name}
-          </option>
-        ))}
-      </select>
+        >
+          {rooms.map((room) => (
+            <option key={room.id} value={room.id}>
+              {room.name}
+            </option>
+          ))}
+        </select>
+      </label>
       <input
         className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
         defaultValue={toDateTimeLocalValue(booking.startAt)}
@@ -142,11 +145,16 @@ function StatusBadge({ status }: { status: RoomBookingStatus }) {
     CANCELLED: "bg-slate-100 text-slate-700",
   }[status];
 
-  return <span className={`rounded-md px-2 py-1 text-xs font-medium ${tone}`}>{status}</span>;
+  const label = {
+    APPROVED: "อนุมัติแล้ว",
+    CANCELLED: "ยกเลิกแล้ว",
+  }[status];
+
+  return <span className={`rounded-md px-2 py-1 text-xs font-medium ${tone}`}>{label}</span>;
 }
 
 function formatDateTime(date: Date) {
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("th-TH", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(date);

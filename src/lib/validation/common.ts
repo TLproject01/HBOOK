@@ -12,7 +12,7 @@ export const futureDateRangeSchema = z
       context.addIssue({
         code: "custom",
         path: ["startAt"],
-        message: "Start datetime must not be in the past.",
+        message: "เวลาเริ่มต้นต้องไม่เป็นอดีต",
       });
     }
 
@@ -20,7 +20,7 @@ export const futureDateRangeSchema = z
       context.addIssue({
         code: "custom",
         path: ["endAt"],
-        message: "End datetime must be after start datetime.",
+        message: "เวลาสิ้นสุดต้องอยู่หลังเวลาเริ่มต้น",
       });
     }
   });

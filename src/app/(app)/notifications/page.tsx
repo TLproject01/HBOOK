@@ -18,11 +18,11 @@ export default async function NotificationsPage() {
     <main className="mx-auto max-w-5xl px-6 py-8">
       <div className="mb-6">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-          Notifications
+          แจ้งเตือน
         </p>
-        <h1 className="mt-2 text-3xl font-semibold text-slate-950">Notification inbox</h1>
+        <h1 className="mt-2 text-3xl font-semibold text-slate-950">กล่องแจ้งเตือน</h1>
         <p className="mt-2 text-sm text-slate-600">
-          {unreadCount} unread notification{unreadCount === 1 ? "" : "s"}
+          มีแจ้งเตือนที่ยังไม่ได้อ่าน {unreadCount.toLocaleString("th-TH")} รายการ
         </p>
       </div>
 
@@ -49,7 +49,7 @@ export default async function NotificationsPage() {
                         : "bg-teal-700 text-white"
                     }`}
                   >
-                    {notification.isRead ? "Read" : "Unread"}
+                    {notification.isRead ? "อ่านแล้ว" : "ยังไม่ได้อ่าน"}
                   </span>
                 </div>
                 <p className="mt-2 text-sm text-slate-700">{notification.message}</p>
@@ -66,7 +66,7 @@ export default async function NotificationsPage() {
                     type="submit"
                   >
                     <CheckCircle2 aria-hidden className="h-4 w-4" />
-                    Mark read
+                    ทำเครื่องหมายว่าอ่านแล้ว
                   </button>
                 </form>
               ) : null}
@@ -78,10 +78,10 @@ export default async function NotificationsPage() {
           <div className="rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center">
             <Inbox aria-hidden className="mx-auto h-8 w-8 text-slate-400" />
             <p className="mt-3 text-sm font-medium text-slate-950">
-              No notifications yet
+              ยังไม่มีแจ้งเตือน
             </p>
             <p className="mt-2 text-sm text-slate-600">
-              Booking updates and review decisions will appear here.
+              ผลอนุมัติและการเปลี่ยนแปลงรายการจองจะแสดงที่นี่
             </p>
           </div>
         ) : null}
@@ -91,7 +91,7 @@ export default async function NotificationsPage() {
 }
 
 function formatDateTime(date: Date) {
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("th-TH", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(date);

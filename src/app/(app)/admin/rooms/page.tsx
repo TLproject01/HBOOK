@@ -20,11 +20,11 @@ export default async function MeetingRoomsPage() {
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-          Admin
+          ผู้ดูแลระบบ
         </p>
-        <h1 className="mt-2 text-3xl font-semibold text-slate-950">Meeting rooms</h1>
+        <h1 className="mt-2 text-3xl font-semibold text-slate-950">ข้อมูลห้องประชุม</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Manage rooms and equipment flags used by the booking calendar and room filters.
+          จัดการห้องประชุม จำนวนที่นั่ง อุปกรณ์ และสถานะพร้อมให้จอง
         </p>
       </div>
 
@@ -37,19 +37,19 @@ export default async function MeetingRoomsPage() {
             <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
               <DoorOpen aria-hidden className="h-5 w-5" />
             </span>
-            <h2 className="text-base font-semibold text-slate-950">Create meeting room</h2>
+            <h2 className="text-base font-semibold text-slate-950">เพิ่มห้องประชุม</h2>
           </div>
 
           <div className="mt-5 space-y-4">
-            <Field label="Room name" name="name" />
-            <Field label="Seat capacity" name="seatCapacity" type="number" />
+            <Field label="ชื่อห้อง" name="name" />
+            <Field label="จำนวนที่นั่ง" name="seatCapacity" type="number" />
             <label className="flex items-center gap-3 rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-700">
               <input className="h-4 w-4" name="hasTv" type="checkbox" />
-              Has TV
+              มีโทรทัศน์
             </label>
             <label className="flex items-center gap-3 rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-700">
               <input className="h-4 w-4" name="hasConferenceSet" type="checkbox" />
-              Has conference set
+              มีชุดประชุมทางไกล
             </label>
           </div>
 
@@ -57,7 +57,7 @@ export default async function MeetingRoomsPage() {
             className="mt-5 w-full rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
             type="submit"
           >
-            Create room
+            เพิ่มห้องประชุม
           </button>
         </form>
 
@@ -72,7 +72,7 @@ export default async function MeetingRoomsPage() {
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="text-base font-semibold text-slate-950">{room.name}</h2>
                     <span className="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
-                      {room.isActive ? "Active" : "Inactive"}
+                      {room.isActive ? "ใช้งานอยู่" : "ปิดใช้งาน"}
                     </span>
                   </div>
                   <p className="mt-2 text-sm text-slate-600">{room.seatCapacity} seats</p>
@@ -80,13 +80,13 @@ export default async function MeetingRoomsPage() {
                 <div className="flex gap-2">
                   <form action={toggleMeetingRoomStatusAction}>
                     <input name="id" type="hidden" value={room.id} />
-                    <IconButton label={room.isActive ? "Deactivate" : "Activate"} tone="neutral">
+                    <IconButton label={room.isActive ? "ปิดใช้งาน" : "เปิดใช้งาน"} tone="neutral">
                       <Power aria-hidden className="h-4 w-4" />
                     </IconButton>
                   </form>
                   <form action={softDeleteMeetingRoomAction}>
                     <input name="id" type="hidden" value={room.id} />
-                    <IconButton label="Soft delete" tone="danger">
+                    <IconButton label="ลบห้องประชุม" tone="danger">
                       <Trash2 aria-hidden className="h-4 w-4" />
                     </IconButton>
                   </form>
@@ -96,11 +96,11 @@ export default async function MeetingRoomsPage() {
               <div className="mt-5 grid gap-2 text-sm text-slate-600">
                 <span className="inline-flex items-center gap-2">
                   <Monitor aria-hidden className="h-4 w-4 text-slate-400" />
-                  {room.hasTv ? "TV available" : "No TV"}
+                  {room.hasTv ? "มีโทรทัศน์" : "ไม่มีโทรทัศน์"}
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <PhoneCall aria-hidden className="h-4 w-4 text-slate-400" />
-                  {room.hasConferenceSet ? "Conference set available" : "No conference set"}
+                  {room.hasConferenceSet ? "มีชุดประชุมทางไกล" : "ไม่มีชุดประชุมทางไกล"}
                 </span>
               </div>
               <p className="mt-4 text-xs text-slate-500">
@@ -108,10 +108,10 @@ export default async function MeetingRoomsPage() {
               </p>
               <form action={updateMeetingRoomAction} className="mt-5 space-y-3 border-t border-slate-200 pt-4">
                 <input name="id" type="hidden" value={room.id} />
-                <Field defaultValue={room.name} label="Room name" name="name" />
+                <Field defaultValue={room.name} label="ชื่อห้อง" name="name" />
                 <Field
                   defaultValue={String(room.seatCapacity)}
-                  label="Seat capacity"
+                  label="จำนวนที่นั่ง"
                   name="seatCapacity"
                   type="number"
                 />
@@ -122,7 +122,7 @@ export default async function MeetingRoomsPage() {
                     name="hasTv"
                     type="checkbox"
                   />
-                  Has TV
+                  มีโทรทัศน์
                 </label>
                 <label className="flex items-center gap-3 rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-700">
                   <input
@@ -131,13 +131,13 @@ export default async function MeetingRoomsPage() {
                     name="hasConferenceSet"
                     type="checkbox"
                   />
-                  Has conference set
+                  มีชุดประชุมทางไกล
                 </label>
                 <button
                   className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700"
                   type="submit"
                 >
-                  Save room
+                  บันทึกข้อมูลห้อง
                 </button>
               </form>
             </article>

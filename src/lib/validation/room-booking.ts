@@ -3,12 +3,12 @@ import { RecurrenceType } from "@prisma/client";
 
 export const createRoomBookingSchema = z
   .object({
-    roomId: z.string().min(1, "Meeting room is required."),
+    roomId: z.string().min(1, "กรุณาเลือกห้องประชุม"),
     startAt: z.coerce.date(),
     endAt: z.coerce.date(),
-    meetingTitle: z.string().trim().min(2, "Meeting title is required."),
-    contactName: z.string().trim().min(2, "Contact name is required."),
-    contactPhone: z.string().trim().min(5, "Contact phone is required."),
+    meetingTitle: z.string().trim().min(2, "กรุณาระบุหัวข้อประชุม"),
+    contactName: z.string().trim().min(2, "กรุณาระบุชื่อผู้ประสานงาน"),
+    contactPhone: z.string().trim().min(5, "กรุณาระบุเบอร์ติดต่อ"),
     recurrenceType: z.nativeEnum(RecurrenceType).optional(),
     occurrenceCount: z.coerce.number().int().min(1).max(24).optional(),
   })
@@ -17,7 +17,7 @@ export const createRoomBookingSchema = z
       context.addIssue({
         code: "custom",
         path: ["startAt"],
-        message: "Start datetime must not be in the past.",
+        message: "เวลาเริ่มต้นต้องไม่เป็นอดีต",
       });
     }
 
@@ -25,20 +25,20 @@ export const createRoomBookingSchema = z
       context.addIssue({
         code: "custom",
         path: ["endAt"],
-        message: "End datetime must be after start datetime.",
+        message: "เวลาสิ้นสุดต้องอยู่หลังเวลาเริ่มต้น",
       });
     }
   });
 
 export const cancelRoomBookingSchema = z.object({
-  id: z.string().min(1, "Missing booking id."),
-  cancelReason: z.string().trim().min(2, "Cancel reason is required."),
+  id: z.string().min(1, "ไม่พบรหัสรายการจอง"),
+  cancelReason: z.string().trim().min(2, "กรุณาระบุเหตุผลที่ยกเลิก"),
 });
 
 export const moveRoomBookingSchema = z
   .object({
-    id: z.string().min(1, "Missing booking id."),
-    roomId: z.string().min(1, "Meeting room is required."),
+    id: z.string().min(1, "ไม่พบรหัสรายการจอง"),
+    roomId: z.string().min(1, "กรุณาเลือกห้องประชุม"),
     startAt: z.coerce.date(),
     endAt: z.coerce.date(),
   })
@@ -47,7 +47,7 @@ export const moveRoomBookingSchema = z
       context.addIssue({
         code: "custom",
         path: ["startAt"],
-        message: "Start datetime must not be in the past.",
+        message: "เวลาเริ่มต้นต้องไม่เป็นอดีต",
       });
     }
 
@@ -55,7 +55,7 @@ export const moveRoomBookingSchema = z
       context.addIssue({
         code: "custom",
         path: ["endAt"],
-        message: "End datetime must be after start datetime.",
+        message: "เวลาสิ้นสุดต้องอยู่หลังเวลาเริ่มต้น",
       });
     }
   });

@@ -1,6 +1,6 @@
-# Vehicle and Meeting Room Booking System
+# HBOOK
 
-Internal booking application for vehicle requests and meeting room reservations.
+ระบบจองรถและห้องประชุมภายในองค์กร สำหรับขอใช้รถ จัดการคนขับ จองห้องประชุม อนุมัติรายการ ติดตามการแจ้งเตือน และส่งออกรายงาน
 
 ## Stack
 
@@ -32,12 +32,12 @@ pnpm test
 pnpm build
 ```
 
-## Phase 0/1 Scope
+## Product Status
 
-This repository currently contains the application foundation, Supabase Auth integration, Prisma data model for Supabase Postgres, Supabase Storage helpers, React Big Calendar calendar shell, and core domain helpers for permissions, availability checks, audit logs, and notifications.
+The core product workflows are implemented and ready for production deployment after environment variables, Supabase schema/RLS/storage, and Vercel deployment settings are configured.
 
-See `docs/roadmap-status.md` for the current implementation status.
-See `docs/requirements.md` for implementation-specific requirement notes added during development.
+See `docs/roadmap-status.md` for implementation status and verification history.
+See `docs/requirements.md` for implementation-specific requirement notes.
 
 ## Supabase Notes
 

@@ -118,7 +118,7 @@ describe("recurring room booking creation service", () => {
         },
         prisma: createPrisma(tx),
       }),
-    ).rejects.toThrow("Room is unavailable for one or more selected occurrences.");
+    ).rejects.toThrow("ห้องประชุมไม่ว่างในบางรอบที่เลือก");
 
     expect(tx.writes).toEqual([]);
   });

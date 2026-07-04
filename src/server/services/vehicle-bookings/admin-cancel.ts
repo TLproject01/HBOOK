@@ -50,7 +50,7 @@ export async function cancelVehicleBookingByAdmin(
     const cancelledAt = now();
 
     if (booking.startAt <= cancelledAt) {
-      throw new Error("Only future vehicle bookings can be cancelled by admin.");
+      throw new Error("ยกเลิกได้เฉพาะรายการใช้รถในอนาคต");
     }
 
     const updated = await tx.vehicleBooking.update({
@@ -66,8 +66,8 @@ export async function cancelVehicleBookingByAdmin(
     await tx.notification.create({
       data: {
         recipientUserId: booking.requesterUserId,
-        title: "Vehicle booking cancelled",
-        message: `Your booking for ${booking.vehicleLicensePlateSnapshot} was cancelled: ${input.cancelReason}`,
+        title: "รายการใช้รถถูกยกเลิก",
+        message: `รายการใช้รถ ${booking.vehicleLicensePlateSnapshot} ถูกยกเลิก: ${input.cancelReason}`,
         module: ModuleName.VEHICLE_BOOKING,
         entityType: "vehicle_booking",
         entityId: booking.id,

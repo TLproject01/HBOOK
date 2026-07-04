@@ -5,11 +5,11 @@ export default function AdminReportsPage() {
     <main className="mx-auto max-w-5xl px-6 py-8">
       <div className="mb-6">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-          Admin
+          ผู้ดูแลระบบ
         </p>
-        <h1 className="mt-2 text-3xl font-semibold text-slate-950">Reports</h1>
+        <h1 className="mt-2 text-3xl font-semibold text-slate-950">รายงาน</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Export vehicle bookings, meeting room bookings, and audit logs.
+          ส่งออกรายการใช้รถ รายการจองห้องประชุม และประวัติการใช้งานเป็นไฟล์ Excel
         </p>
       </div>
 
@@ -19,15 +19,15 @@ export default function AdminReportsPage() {
         method="get"
       >
         <div className="grid gap-5 md:grid-cols-2">
-          <Field label="Start date" name="startDate" type="date" />
-          <Field label="End date" name="endDate" type="date" />
+          <Field label="วันที่เริ่มต้น" name="startDate" type="date" />
+          <Field label="วันที่สิ้นสุด" name="endDate" type="date" />
         </div>
         <button
           className="mt-6 inline-flex items-center gap-2 rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
           type="submit"
         >
           <Download aria-hidden className="h-4 w-4" />
-          Export Excel
+          ดาวน์โหลด Excel
         </button>
       </form>
     </main>

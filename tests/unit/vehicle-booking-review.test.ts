@@ -105,7 +105,7 @@ describe("vehicle booking review service", () => {
       type: "notification.create",
       data: expect.objectContaining({
         recipientUserId: "requester-1",
-        title: "Vehicle request approved",
+        title: "คำขอใช้รถได้รับอนุมัติ",
       }),
     });
     expect(tx.writes).toContainEqual({
@@ -131,7 +131,7 @@ describe("vehicle booking review service", () => {
         now: () => now,
         prisma: createPrisma(tx),
       }),
-    ).rejects.toThrow("Vehicle is unavailable for the selected time range.");
+    ).rejects.toThrow("รถไม่ว่างในช่วงเวลาที่เลือก");
   });
 
   it("rejects approval for a driver request without an assigned driver", async () => {
@@ -146,7 +146,7 @@ describe("vehicle booking review service", () => {
         now: () => now,
         prisma: createPrisma(tx),
       }),
-    ).rejects.toThrow("Driver assignment is required for this request.");
+    ).rejects.toThrow("คำขอนี้ต้องมอบหมายคนขับ");
   });
 
   it("rejects a pending request with reason, requester notification, and audit log", async () => {
@@ -172,7 +172,7 @@ describe("vehicle booking review service", () => {
       type: "notification.create",
       data: expect.objectContaining({
         recipientUserId: "requester-1",
-        title: "Vehicle request rejected",
+        title: "คำขอใช้รถถูกปฏิเสธ",
       }),
     });
     expect(tx.writes).toContainEqual({

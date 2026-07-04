@@ -105,18 +105,18 @@ export async function approveVehicleBooking(input: ApproveVehicleBookingInput) {
     );
 
     if (!vehicleAvailable) {
-      throw new Error("Vehicle is unavailable for the selected time range.");
+      throw new Error("รถไม่ว่างในช่วงเวลาที่เลือก");
     }
 
     if (booking.needDriver && !input.assignedDriverId) {
-      throw new Error("Driver assignment is required for this request.");
+      throw new Error("คำขอนี้ต้องมอบหมายคนขับ");
     }
 
     if (
       input.assignedDriverId &&
       booking.vehicle.driverOption === DriverOption.SELF_DRIVE_ONLY
     ) {
-      throw new Error("This vehicle is self-drive only.");
+      throw new Error("รถคันนี้เป็นรถขับเองเท่านั้น");
     }
 
     const driver = input.assignedDriverId
@@ -124,14 +124,14 @@ export async function approveVehicleBooking(input: ApproveVehicleBookingInput) {
       : null;
 
     if (input.assignedDriverId && !driver) {
-      throw new Error("Selected driver is not active or is not mapped to this vehicle.");
+      throw new Error("คนขับที่เลือกไม่ได้เปิดใช้งานหรือยังไม่ได้ผูกกับรถคันนี้");
     }
 
     if (driver) {
       const driverAvailable = await checkDriverAvailable(tx, driver.id, range, booking.id);
 
       if (!driverAvailable) {
-        throw new Error("Selected driver is unavailable for the selected time range.");
+        throw new Error("คนขับที่เลือกไม่ว่างในช่วงเวลานี้");
       }
     }
 
@@ -151,8 +151,8 @@ export async function approveVehicleBooking(input: ApproveVehicleBookingInput) {
     await tx.notification.create({
       data: {
         recipientUserId: booking.requesterUserId,
-        title: "Vehicle request approved",
-        message: `Your request for ${booking.vehicle.licensePlate} was approved.`,
+        title: "คำขอใช้รถได้รับอนุมัติ",
+        message: `คำขอใช้รถ ${booking.vehicle.licensePlate} ได้รับอนุมัติแล้ว`,
         module: ModuleName.VEHICLE_BOOKING,
         entityType: "vehicle_booking",
         entityId: booking.id,
@@ -192,8 +192,8 @@ export async function rejectVehicleBooking(input: RejectVehicleBookingInput) {
     await tx.notification.create({
       data: {
         recipientUserId: booking.requesterUserId,
-        title: "Vehicle request rejected",
-        message: `Your request for ${booking.vehicle.licensePlate} was rejected: ${input.rejectReason}`,
+        title: "คำขอใช้รถถูกปฏิเสธ",
+        message: `คำขอใช้รถ ${booking.vehicle.licensePlate} ถูกปฏิเสธ: ${input.rejectReason}`,
         module: ModuleName.VEHICLE_BOOKING,
         entityType: "vehicle_booking",
         entityId: booking.id,

@@ -50,8 +50,8 @@ export function RoomCalendarClient({ rooms, events }: RoomCalendarClientProps) {
 
   const selectedRoomName =
     selectedRoomId === "all"
-      ? "All rooms"
-      : rooms.find((room) => room.id === selectedRoomId)?.name ?? "Selected room";
+      ? "ทุกห้อง"
+      : rooms.find((room) => room.id === selectedRoomId)?.name ?? "ห้องที่เลือก";
 
   return (
     <section className="space-y-4">
@@ -60,16 +60,15 @@ export function RoomCalendarClient({ rooms, events }: RoomCalendarClientProps) {
           <div>
             <div className="flex items-center gap-2 text-sm font-semibold text-slate-950">
               <Filter aria-hidden className="h-4 w-4 text-teal-700" />
-              Room filter
+              ตัวกรองห้องประชุม
             </div>
             <p className="mt-1 text-sm text-slate-600">
-              Showing {filteredEvents.length} booking{filteredEvents.length === 1 ? "" : "s"} for{" "}
-              {selectedRoomName}.
+              แสดง {filteredEvents.length.toLocaleString("th-TH")} รายการสำหรับ {selectedRoomName}
             </p>
           </div>
 
           <label className="block w-full lg:w-80">
-            <span className="text-sm font-medium text-slate-700">Meeting room</span>
+            <span className="text-sm font-medium text-slate-700">ห้องประชุม</span>
             <div className="relative mt-2">
               <DoorOpen
                 aria-hidden
@@ -80,7 +79,7 @@ export function RoomCalendarClient({ rooms, events }: RoomCalendarClientProps) {
                 onChange={(event) => setSelectedRoomId(event.target.value)}
                 value={selectedRoomId}
               >
-                <option value="all">All rooms</option>
+                <option value="all">ทุกห้อง</option>
                 {rooms.map((room) => (
                   <option key={room.id} value={room.id}>
                     {room.name}
@@ -93,7 +92,7 @@ export function RoomCalendarClient({ rooms, events }: RoomCalendarClientProps) {
       </div>
 
       <BookingCalendar
-        emptyMessage={`No approved bookings found for ${selectedRoomName}.`}
+        emptyMessage={`ยังไม่มีการจองที่อนุมัติแล้วสำหรับ ${selectedRoomName}`}
         events={filteredEvents}
       />
     </section>

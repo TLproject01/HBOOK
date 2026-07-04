@@ -23,11 +23,11 @@ export default async function VehiclesPage() {
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-          Admin
+          ผู้ดูแลระบบ
         </p>
-        <h1 className="mt-2 text-3xl font-semibold text-slate-950">Vehicles</h1>
+        <h1 className="mt-2 text-3xl font-semibold text-slate-950">ข้อมูลรถ</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Manage fleet records, driver options, and availability status for new requests.
+          จัดการทะเบียนรถ จำนวนที่นั่ง รูปภาพ และสถานะพร้อมใช้งาน
         </p>
       </div>
 
@@ -41,28 +41,28 @@ export default async function VehiclesPage() {
             <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
               <Car aria-hidden className="h-5 w-5" />
             </span>
-            <h2 className="text-base font-semibold text-slate-950">Create vehicle</h2>
+            <h2 className="text-base font-semibold text-slate-950">เพิ่มรถ</h2>
           </div>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            <Field label="Vehicle model" name="model" />
-            <Field label="Color" name="color" />
-            <Field label="License plate" name="licensePlate" />
-            <Field label="Seat capacity" name="seatCapacity" type="number" />
+            <Field label="รุ่นรถ" name="model" />
+            <Field label="สี" name="color" />
+            <Field label="ทะเบียนรถ" name="licensePlate" />
+            <Field label="จำนวนที่นั่ง" name="seatCapacity" type="number" />
             <label className="block sm:col-span-2">
-              <span className="text-sm font-medium text-slate-700">Driver option</span>
+              <span className="text-sm font-medium text-slate-700">รูปแบบการใช้รถ</span>
               <select
                 className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                 name="driverOption"
               >
-                <option value={DriverOption.SELF_DRIVE_ONLY}>Self-drive only</option>
+                <option value={DriverOption.SELF_DRIVE_ONLY}>ขับเองเท่านั้น</option>
                 <option value={DriverOption.DRIVER_OR_SELF_DRIVE}>
-                  Driver or self-drive
+                  ขอคนขับหรือขับเองได้
                 </option>
               </select>
             </label>
             <label className="block sm:col-span-2">
-              <span className="text-sm font-medium text-slate-700">Photo</span>
+              <span className="text-sm font-medium text-slate-700">รูปถ่ายรถ</span>
               <input
                 accept="image/jpeg,image/png,image/webp"
                 className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
@@ -76,7 +76,7 @@ export default async function VehiclesPage() {
             className="mt-5 w-full rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
             type="submit"
           >
-            Create vehicle
+            เพิ่มรถ
           </button>
         </form>
 
@@ -93,12 +93,12 @@ export default async function VehiclesPage() {
                       {vehicle.licensePlate}
                     </h2>
                     <span className="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
-                      {vehicle.isActive ? "Active" : "Inactive"}
+                      {vehicle.isActive ? "ใช้งานอยู่" : "ปิดใช้งาน"}
                     </span>
                     <span className="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
                       {vehicle.driverOption === DriverOption.SELF_DRIVE_ONLY
-                        ? "Self-drive only"
-                        : "Driver or self-drive"}
+                        ? "ขับเองเท่านั้น"
+                        : "ขอคนขับหรือขับเองได้"}
                     </span>
                   </div>
                   <p className="mt-2 text-sm text-slate-600">
@@ -115,7 +115,7 @@ export default async function VehiclesPage() {
                   <form action={toggleVehicleStatusAction}>
                     <input name="id" type="hidden" value={vehicle.id} />
                     <IconButton
-                      label={vehicle.isActive ? "Deactivate" : "Activate"}
+                      label={vehicle.isActive ? "ปิดใช้งาน" : "เปิดใช้งาน"}
                       tone="neutral"
                     >
                       <Power aria-hidden className="h-4 w-4" />
@@ -123,7 +123,7 @@ export default async function VehiclesPage() {
                   </form>
                   <form action={softDeleteVehicleAction}>
                     <input name="id" type="hidden" value={vehicle.id} />
-                    <IconButton label="Soft delete" tone="danger">
+                    <IconButton label="ลบรถ" tone="danger">
                       <Trash2 aria-hidden className="h-4 w-4" />
                     </IconButton>
                   </form>
@@ -135,34 +135,34 @@ export default async function VehiclesPage() {
                 encType="multipart/form-data"
               >
                 <input name="id" type="hidden" value={vehicle.id} />
-                <Field defaultValue={vehicle.model} label="Vehicle model" name="model" />
-                <Field defaultValue={vehicle.color} label="Color" name="color" />
+                <Field defaultValue={vehicle.model} label="รุ่นรถ" name="model" />
+                <Field defaultValue={vehicle.color} label="สี" name="color" />
                 <Field
                   defaultValue={vehicle.licensePlate}
-                  label="License plate"
+                  label="ทะเบียนรถ"
                   name="licensePlate"
                 />
                 <Field
                   defaultValue={String(vehicle.seatCapacity)}
-                  label="Seat capacity"
+                  label="จำนวนที่นั่ง"
                   name="seatCapacity"
                   type="number"
                 />
                 <label className="block sm:col-span-2">
-                  <span className="text-sm font-medium text-slate-700">Driver option</span>
+                  <span className="text-sm font-medium text-slate-700">รูปแบบการใช้รถ</span>
                   <select
                     className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                     defaultValue={vehicle.driverOption}
                     name="driverOption"
                   >
-                    <option value={DriverOption.SELF_DRIVE_ONLY}>Self-drive only</option>
+                    <option value={DriverOption.SELF_DRIVE_ONLY}>ขับเองเท่านั้น</option>
                     <option value={DriverOption.DRIVER_OR_SELF_DRIVE}>
-                      Driver or self-drive
+                      ขอคนขับหรือขับเองได้
                     </option>
                   </select>
                 </label>
                 <label className="block sm:col-span-2">
-                  <span className="text-sm font-medium text-slate-700">Replace photo</span>
+                  <span className="text-sm font-medium text-slate-700">เปลี่ยนรูปถ่ายรถ</span>
                   <input
                     accept="image/jpeg,image/png,image/webp"
                     className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
@@ -174,7 +174,7 @@ export default async function VehiclesPage() {
                   className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 sm:col-span-2"
                   type="submit"
                 >
-                  Save vehicle
+                  บันทึกข้อมูลรถ
                 </button>
               </form>
             </article>

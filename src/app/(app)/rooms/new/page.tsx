@@ -22,16 +22,16 @@ export default async function NewRoomBookingPage() {
           href="/rooms/calendar"
         >
           <ArrowLeft aria-hidden className="h-4 w-4" />
-          Back to room calendar
+          กลับไปตารางห้องประชุม
         </Link>
         <p className="mt-5 text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-          Meeting rooms
+          ห้องประชุม
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-slate-950">
-          Create room booking
+          จองห้องประชุม
         </h1>
         <p className="mt-2 text-sm text-slate-600">
-          Approved room bookings block availability for the selected meeting room.
+          ระบุห้อง ช่วงเวลา และรายละเอียดการประชุม ระบบจะตรวจสอบเวลาว่างก่อนบันทึก
         </p>
       </div>
 
@@ -43,12 +43,12 @@ export default async function NewRoomBookingPage() {
           <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
             <DoorOpen aria-hidden className="h-5 w-5" />
           </span>
-          <h2 className="text-base font-semibold text-slate-950">Meeting details</h2>
+          <h2 className="text-base font-semibold text-slate-950">รายละเอียดการประชุม</h2>
         </div>
 
         <div className="mt-6 grid gap-5 md:grid-cols-2">
           <label className="block md:col-span-2">
-            <span className="text-sm font-medium text-slate-700">Meeting room</span>
+            <span className="text-sm font-medium text-slate-700">ห้องประชุม</span>
             <select
               className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
               name="roomId"
@@ -56,7 +56,7 @@ export default async function NewRoomBookingPage() {
             >
               {rooms.map((room) => (
                 <option key={room.id} value={room.id}>
-                  {room.name}, {room.seatCapacity} seats
+                  {room.name}, {room.seatCapacity} ที่นั่ง
                   {room.hasTv ? ", TV" : ""}
                   {room.hasConferenceSet ? ", conference set" : ""}
                 </option>
@@ -64,23 +64,23 @@ export default async function NewRoomBookingPage() {
             </select>
           </label>
 
-          <Field label="Start datetime" name="startAt" type="datetime-local" />
-          <Field label="End datetime" name="endAt" type="datetime-local" />
-          <Field className="md:col-span-2" label="Meeting title" name="meetingTitle" />
-          <Field label="Contact name" name="contactName" />
-          <Field label="Contact phone" name="contactPhone" />
+          <Field label="วันและเวลาเริ่มประชุม" name="startAt" type="datetime-local" />
+          <Field label="วันและเวลาสิ้นสุด" name="endAt" type="datetime-local" />
+          <Field className="md:col-span-2" label="หัวข้อประชุม" name="meetingTitle" />
+          <Field label="ชื่อผู้ประสานงาน" name="contactName" />
+          <Field label="เบอร์ติดต่อ" name="contactPhone" />
           <label className="block">
-            <span className="text-sm font-medium text-slate-700">Repeat</span>
+            <span className="text-sm font-medium text-slate-700">การจองซ้ำ</span>
             <select
               className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
               name="recurrenceType"
             >
-              <option value="">Does not repeat</option>
-              <option value="WEEKLY">Weekly</option>
-              <option value="MONTHLY">Monthly</option>
+              <option value="">ไม่จองซ้ำ</option>
+              <option value="WEEKLY">รายสัปดาห์</option>
+              <option value="MONTHLY">รายเดือน</option>
             </select>
           </label>
-          <Field defaultValue="1" label="Occurrences" name="occurrenceCount" type="number" />
+          <Field defaultValue="1" label="จำนวนครั้ง" name="occurrenceCount" type="number" />
         </div>
 
         <div className="mt-6 flex justify-end gap-3">
@@ -88,13 +88,13 @@ export default async function NewRoomBookingPage() {
             className="rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700"
             href="/rooms/calendar"
           >
-            Cancel
+            ยกเลิก
           </Link>
           <button
             className="rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
             type="submit"
           >
-            Create booking
+            บันทึกการจอง
           </button>
         </div>
       </form>

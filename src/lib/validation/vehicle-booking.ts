@@ -4,25 +4,25 @@ import { optionalCheckboxSchema } from "./common";
 
 export const createVehicleBookingSchema = z
   .object({
-    vehicleId: z.string().min(1, "Vehicle is required."),
+    vehicleId: z.string().min(1, "กรุณาเลือกรถ"),
     startAt: z.coerce.date(),
     endAt: z.coerce.date(),
-    passengerCount: z.coerce.number().int().positive("Passenger count must be positive."),
+    passengerCount: z.coerce.number().int().positive("จำนวนผู้โดยสารต้องมากกว่า 0"),
     needDriver: optionalCheckboxSchema,
-    startLocation: z.string().trim().min(2, "Start location is required."),
+    startLocation: z.string().trim().min(2, "กรุณาระบุจุดเริ่มต้น"),
     destinations: z
       .array(z.string().trim().min(1))
-      .min(1, "At least one destination is required."),
-    tripPurpose: z.string().trim().min(2, "Trip purpose is required."),
-    contactName: z.string().trim().min(2, "Contact name is required."),
-    contactPhone: z.string().trim().min(5, "Contact phone is required."),
+      .min(1, "กรุณาระบุปลายทางอย่างน้อย 1 รายการ"),
+    tripPurpose: z.string().trim().min(2, "กรุณาระบุวัตถุประสงค์การเดินทาง"),
+    contactName: z.string().trim().min(2, "กรุณาระบุชื่อผู้ประสานงาน"),
+    contactPhone: z.string().trim().min(5, "กรุณาระบุเบอร์ติดต่อ"),
   })
   .superRefine((value, context) => {
     if (value.startAt < new Date()) {
       context.addIssue({
         code: "custom",
         path: ["startAt"],
-        message: "Start datetime must not be in the past.",
+        message: "เวลาเริ่มต้นต้องไม่เป็นอดีต",
       });
     }
 
@@ -30,17 +30,17 @@ export const createVehicleBookingSchema = z
       context.addIssue({
         code: "custom",
         path: ["endAt"],
-        message: "End datetime must be after start datetime.",
+        message: "เวลาสิ้นสุดต้องอยู่หลังเวลาเริ่มต้น",
       });
     }
   });
 
 export const cancelVehicleBookingSchema = z.object({
-  id: z.string().min(1, "Missing booking id."),
+  id: z.string().min(1, "ไม่พบรหัสรายการจอง"),
 });
 
 export const updateVehicleBookingSchema = createVehicleBookingSchema.extend({
-  id: z.string().min(1, "Missing booking id."),
+  id: z.string().min(1, "ไม่พบรหัสรายการจอง"),
 });
 
 const optionalSelectIdSchema = z.preprocess(
@@ -54,22 +54,22 @@ export const approveVehicleBookingSchema = z.object({
 });
 
 export const rejectVehicleBookingSchema = z.object({
-  id: z.string().min(1, "Missing booking id."),
-  rejectReason: z.string().trim().min(2, "Reject reason is required."),
+  id: z.string().min(1, "ไม่พบรหัสรายการจอง"),
+  rejectReason: z.string().trim().min(2, "กรุณาระบุเหตุผลที่ไม่อนุมัติ"),
 });
 
 export const adminCancelVehicleBookingSchema = z.object({
-  id: z.string().min(1, "Missing booking id."),
-  cancelReason: z.string().trim().min(2, "Cancel reason is required."),
+  id: z.string().min(1, "ไม่พบรหัสรายการจอง"),
+  cancelReason: z.string().trim().min(2, "กรุณาระบุเหตุผลที่ยกเลิก"),
 });
 
 export const adminMoveVehicleBookingSchema = z
   .object({
-    id: z.string().min(1, "Missing booking id."),
-    vehicleId: z.string().min(1, "Vehicle is required."),
+    id: z.string().min(1, "ไม่พบรหัสรายการจอง"),
+    vehicleId: z.string().min(1, "กรุณาเลือกรถ"),
     startAt: z.coerce.date(),
     endAt: z.coerce.date(),
-    passengerCount: z.coerce.number().int().positive("Passenger count must be positive."),
+    passengerCount: z.coerce.number().int().positive("จำนวนผู้โดยสารต้องมากกว่า 0"),
     assignedDriverId: optionalSelectIdSchema,
   })
   .superRefine((value, context) => {
@@ -77,7 +77,7 @@ export const adminMoveVehicleBookingSchema = z
       context.addIssue({
         code: "custom",
         path: ["startAt"],
-        message: "Start datetime must not be in the past.",
+        message: "เวลาเริ่มต้นต้องไม่เป็นอดีต",
       });
     }
 
@@ -85,7 +85,7 @@ export const adminMoveVehicleBookingSchema = z
       context.addIssue({
         code: "custom",
         path: ["endAt"],
-        message: "End datetime must be after start datetime.",
+        message: "เวลาสิ้นสุดต้องอยู่หลังเวลาเริ่มต้น",
       });
     }
   });

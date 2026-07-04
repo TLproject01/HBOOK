@@ -24,11 +24,11 @@ export default async function MyVehicleRequestsPage() {
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-            Vehicles
+            รถส่วนกลาง
           </p>
-          <h1 className="mt-2 text-3xl font-semibold text-slate-950">My vehicle requests</h1>
+          <h1 className="mt-2 text-3xl font-semibold text-slate-950">คำขอใช้รถของฉัน</h1>
           <p className="mt-2 text-sm text-slate-600">
-            Pending requests can be cancelled before admin review.
+            ตรวจสอบสถานะ แก้ไข หรือยกเลิกคำขอที่ยังรออนุมัติ
           </p>
         </div>
         <Link
@@ -36,7 +36,7 @@ export default async function MyVehicleRequestsPage() {
           href="/vehicles/new"
         >
           <CalendarPlus aria-hidden className="h-4 w-4" />
-          Create request
+          ขอใช้รถ
         </Link>
       </div>
 
@@ -55,15 +55,15 @@ export default async function MyVehicleRequestsPage() {
                   <StatusBadge status={request.status} />
                   {request.needDriver ? (
                     <span className="rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-800">
-                      Driver requested
+                      ขอคนขับ
                     </span>
                   ) : null}
                 </div>
                 <p className="mt-2 text-sm text-slate-600">
-                  {formatDateTime(request.startAt)} to {formatDateTime(request.endAt)}
+                  {formatDateTime(request.startAt)} ถึง {formatDateTime(request.endAt)}
                 </p>
                 <p className="mt-2 text-sm text-slate-600">
-                  {request.startLocation} to{" "}
+                  {request.startLocation} ไปยัง{" "}
                   {request.routes.map((route) => route.destination).join(", ")}
                 </p>
                 <p className="mt-2 text-sm text-slate-600">{request.tripPurpose}</p>
@@ -76,7 +76,7 @@ export default async function MyVehicleRequestsPage() {
                     href={`/vehicles/requests/${request.id}/edit`}
                   >
                     <PencilLine aria-hidden className="h-4 w-4" />
-                    Edit
+                    แก้ไข
                   </Link>
                   <form action={cancelPendingVehicleBookingAction}>
                     <input name="id" type="hidden" value={request.id} />
@@ -85,7 +85,7 @@ export default async function MyVehicleRequestsPage() {
                       type="submit"
                     >
                       <XCircle aria-hidden className="h-4 w-4" />
-                      Cancel request
+                      ยกเลิกคำขอ
                     </button>
                   </form>
                 </div>
@@ -96,8 +96,8 @@ export default async function MyVehicleRequestsPage() {
 
         {requests.length === 0 ? (
           <div className="rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center">
-            <p className="text-sm font-medium text-slate-950">No vehicle requests yet</p>
-            <p className="mt-2 text-sm text-slate-600">Create your first request from the calendar.</p>
+            <p className="text-sm font-medium text-slate-950">ยังไม่มีคำขอใช้รถ</p>
+            <p className="mt-2 text-sm text-slate-600">เริ่มจากการเลือกช่วงเวลาในตารางใช้รถแล้วส่งคำขอใหม่</p>
           </div>
         ) : null}
       </section>
@@ -113,11 +113,18 @@ function StatusBadge({ status }: { status: VehicleBookingStatus }) {
     CANCELLED: "bg-slate-100 text-slate-700",
   }[status];
 
-  return <span className={`rounded-md px-2 py-1 text-xs font-medium ${tone}`}>{status}</span>;
+  const label = {
+    PENDING: "รออนุมัติ",
+    APPROVED: "อนุมัติแล้ว",
+    REJECTED: "ไม่อนุมัติ",
+    CANCELLED: "ยกเลิกแล้ว",
+  }[status];
+
+  return <span className={`rounded-md px-2 py-1 text-xs font-medium ${tone}`}>{label}</span>;
 }
 
 function formatDateTime(date: Date) {
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("th-TH", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(date);

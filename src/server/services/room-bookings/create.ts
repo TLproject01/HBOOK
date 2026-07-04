@@ -93,8 +93,8 @@ export async function createRoomBooking(dependencies: CreateRoomBookingDependenc
     if (availability.some((available) => !available)) {
       throw new Error(
         input.recurrenceType
-          ? "Room is unavailable for one or more selected occurrences."
-          : "Room is unavailable for the selected time range.",
+          ? "ห้องประชุมไม่ว่างในบางรอบที่เลือก"
+          : "ห้องประชุมไม่ว่างในช่วงเวลาที่เลือก",
       );
     }
 

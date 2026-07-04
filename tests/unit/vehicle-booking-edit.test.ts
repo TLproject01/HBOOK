@@ -128,7 +128,7 @@ describe("edit own pending vehicle booking service", () => {
       type: "notification.create",
       data: expect.objectContaining({
         recipientUserId: "admin-1",
-        title: "Vehicle request updated",
+        title: "คำขอใช้รถถูกแก้ไข",
       }),
     });
     expect(tx.writes).toContainEqual({
@@ -150,7 +150,7 @@ describe("edit own pending vehicle booking service", () => {
         isVehicleAvailable: async () => true,
         prisma: createPrisma(tx),
       }),
-    ).rejects.toThrow("Passenger count exceeds vehicle seat capacity.");
+    ).rejects.toThrow("จำนวนผู้โดยสารเกินจำนวนที่นั่งของรถ");
   });
 
   it("rejects updates when the vehicle is unavailable excluding the current booking", async () => {
@@ -166,7 +166,7 @@ describe("edit own pending vehicle booking service", () => {
         },
         prisma: createPrisma(tx),
       }),
-    ).rejects.toThrow("Vehicle is unavailable for the selected time range.");
+    ).rejects.toThrow("รถไม่ว่างในช่วงเวลาที่เลือก");
 
     expect(availabilityCalls[0]).toEqual([tx, "vehicle-1", range, "booking-1"]);
   });

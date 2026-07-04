@@ -45,14 +45,13 @@ export default async function AdminVehicleRequestsPage() {
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-          Admin
+          ผู้ดูแลระบบ
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-slate-950">
-          Vehicle request review
+          อนุมัติคำขอใช้รถ
         </h1>
         <p className="mt-2 text-sm text-slate-600">
-          Approve pending requests, assign mapped drivers when needed, or reject requests
-          with a reason.
+          ตรวจคำขอที่รออนุมัติ มอบหมายคนขับ ย้ายเวลา หรือยกเลิกรายการที่อนุมัติแล้ว
         </p>
       </div>
 
@@ -82,25 +81,25 @@ export default async function AdminVehicleRequestsPage() {
                     <StatusBadge status={request.status} />
                     {request.needDriver ? (
                       <span className="rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-800">
-                        Driver requested
+                        ขอคนขับ
                       </span>
                     ) : (
                       <span className="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
-                        Self-drive
+                        ขับเอง
                       </span>
                     )}
                   </div>
 
                   <dl className="mt-4 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
-                    <Detail label="Requester" value={request.requesterNameSnapshot} />
-                    <Detail label="Department" value={request.departmentNameSnapshot} />
-                    <Detail label="Start" value={formatDateTime(request.startAt)} />
-                    <Detail label="End" value={formatDateTime(request.endAt)} />
-                    <Detail label="Passengers" value={String(request.passengerCount)} />
-                    <Detail label="Contact" value={`${request.contactName} - ${request.contactPhone}`} />
-                    <Detail label="Start location" value={request.startLocation} />
+                    <Detail label="ผู้ขอ" value={request.requesterNameSnapshot} />
+                    <Detail label="หน่วยงาน" value={request.departmentNameSnapshot} />
+                    <Detail label="เริ่ม" value={formatDateTime(request.startAt)} />
+                    <Detail label="สิ้นสุด" value={formatDateTime(request.endAt)} />
+                    <Detail label="ผู้โดยสาร" value={String(request.passengerCount)} />
+                    <Detail label="ติดต่อ" value={`${request.contactName} - ${request.contactPhone}`} />
+                    <Detail label="จุดเริ่มต้น" value={request.startLocation} />
                     <Detail
-                      label="Destinations"
+                      label="ปลายทาง"
                       value={request.routes.map((route) => route.destination).join(", ")}
                     />
                   </dl>
@@ -116,14 +115,14 @@ export default async function AdminVehicleRequestsPage() {
                         {requiresDriver ? (
                           <label className="block">
                             <span className="text-sm font-medium text-slate-700">
-                              Assign driver
+                              มอบหมายคนขับ
                             </span>
                             <select
                               className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
                               name="assignedDriverId"
                               required
                             >
-                              <option value="">Select driver</option>
+                              <option value="">เลือกคนขับ</option>
                               {mappedDrivers.map((mapping) => (
                                 <option key={mapping.driverId} value={mapping.driverId}>
                                   {mapping.driver.name} - {mapping.driver.phone}
@@ -137,7 +136,7 @@ export default async function AdminVehicleRequestsPage() {
                           type="submit"
                         >
                           <CheckCircle2 aria-hidden className="h-4 w-4" />
-                          Approve
+                          อนุมัติ
                         </button>
                       </form>
 
@@ -145,7 +144,7 @@ export default async function AdminVehicleRequestsPage() {
                         <input name="id" type="hidden" value={request.id} />
                         <label className="block">
                           <span className="text-sm font-medium text-slate-700">
-                            Reject reason
+                            เหตุผลที่ไม่อนุมัติ
                           </span>
                           <textarea
                             className="mt-2 min-h-20 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
@@ -158,7 +157,7 @@ export default async function AdminVehicleRequestsPage() {
                           type="submit"
                         >
                           <XCircle aria-hidden className="h-4 w-4" />
-                          Reject
+                          ไม่อนุมัติ
                         </button>
                       </form>
                     </>
@@ -170,7 +169,7 @@ export default async function AdminVehicleRequestsPage() {
                         <input name="id" type="hidden" value={request.id} />
                         <label className="block">
                           <span className="text-sm font-medium text-slate-700">
-                            Move vehicle
+                            เปลี่ยนรถ
                           </span>
                           <select
                             className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
@@ -188,33 +187,33 @@ export default async function AdminVehicleRequestsPage() {
                         <div className="grid gap-3 sm:grid-cols-2">
                           <Field
                             defaultValue={toDateTimeLocalValue(request.startAt)}
-                            label="Move start"
+                            label="เวลาเริ่มใหม่"
                             name="startAt"
                             type="datetime-local"
                           />
                           <Field
                             defaultValue={toDateTimeLocalValue(request.endAt)}
-                            label="Move end"
+                            label="เวลาสิ้นสุดใหม่"
                             name="endAt"
                             type="datetime-local"
                           />
                         </div>
                         <Field
                           defaultValue={String(request.passengerCount)}
-                          label="Passengers"
+                          label="ผู้โดยสาร"
                           name="passengerCount"
                           type="number"
                         />
                         <label className="block">
                           <span className="text-sm font-medium text-slate-700">
-                            Assign driver
+                            มอบหมายคนขับ
                           </span>
                           <select
                             className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
                             defaultValue={request.assignedDriverId ?? ""}
                             name="assignedDriverId"
                           >
-                            <option value="">No driver</option>
+                            <option value="">ไม่ใช้คนขับ</option>
                             {mappedDrivers.map((mapping) => (
                               <option key={mapping.driverId} value={mapping.driverId}>
                                 {mapping.driver.name} - {mapping.driver.phone}
@@ -227,7 +226,7 @@ export default async function AdminVehicleRequestsPage() {
                           type="submit"
                         >
                           <CheckCircle2 aria-hidden className="h-4 w-4" />
-                          Move booking
+                          บันทึกการย้ายรายการ
                         </button>
                       </form>
 
@@ -235,7 +234,7 @@ export default async function AdminVehicleRequestsPage() {
                         <input name="id" type="hidden" value={request.id} />
                         <label className="block">
                           <span className="text-sm font-medium text-slate-700">
-                            Cancel reason
+                            เหตุผลที่ยกเลิก
                           </span>
                           <textarea
                             className="mt-2 min-h-20 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
@@ -248,7 +247,7 @@ export default async function AdminVehicleRequestsPage() {
                           type="submit"
                         >
                           <XCircle aria-hidden className="h-4 w-4" />
-                          Cancel booking
+                          ยกเลิกรายการ
                         </button>
                       </form>
                     </>
@@ -262,10 +261,10 @@ export default async function AdminVehicleRequestsPage() {
         {requests.length === 0 ? (
           <div className="rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center">
             <p className="text-sm font-medium text-slate-950">
-              No pending or approved vehicle requests
+              ไม่มีคำขอใช้รถที่รอดำเนินการ
             </p>
             <p className="mt-2 text-sm text-slate-600">
-              New user-created requests and approved future bookings will appear here.
+              คำขอใหม่และรายการอนุมัติในอนาคตจะแสดงที่นี่
             </p>
           </div>
         ) : null}
@@ -282,7 +281,14 @@ function StatusBadge({ status }: { status: VehicleBookingStatus }) {
     REJECTED: "bg-red-50 text-red-800",
   }[status];
 
-  return <span className={`rounded-md px-2 py-1 text-xs font-medium ${tone}`}>{status}</span>;
+  const label = {
+    APPROVED: "อนุมัติแล้ว",
+    CANCELLED: "ยกเลิกแล้ว",
+    PENDING: "รออนุมัติ",
+    REJECTED: "ไม่อนุมัติ",
+  }[status];
+
+  return <span className={`rounded-md px-2 py-1 text-xs font-medium ${tone}`}>{label}</span>;
 }
 
 function Detail({ label, value }: { label: string; value: string }) {
@@ -327,7 +333,7 @@ function toDateTimeLocalValue(date: Date) {
 }
 
 function formatDateTime(date: Date) {
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("th-TH", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(date);

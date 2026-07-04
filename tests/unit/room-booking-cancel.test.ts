@@ -98,7 +98,7 @@ describe("room booking cancellation service", () => {
       type: "notification.create",
       data: expect.objectContaining({
         recipientUserId: "requester-1",
-        title: "Room booking cancelled",
+        title: "รายการจองห้องถูกยกเลิก",
       }),
     });
     expect(tx.writes).toContainEqual({
@@ -123,6 +123,6 @@ describe("room booking cancellation service", () => {
         prisma: createPrisma(tx),
         userId: "requester-1",
       }),
-    ).rejects.toThrow("Only future room bookings can be cancelled.");
+    ).rejects.toThrow("ยกเลิกได้เฉพาะการจองห้องในอนาคต");
   });
 });

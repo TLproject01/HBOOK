@@ -108,6 +108,6 @@ describe("room booking creation service", () => {
         isRoomAvailable: async () => false,
         prisma: createPrisma(tx),
       }),
-    ).rejects.toThrow("Room is unavailable for the selected time range.");
+    ).rejects.toThrow("ห้องประชุมไม่ว่างในช่วงเวลาที่เลือก");
   });
 });

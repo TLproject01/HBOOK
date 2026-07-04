@@ -76,7 +76,7 @@ describe("admin vehicle booking cancellation service", () => {
       type: "notification.create",
       data: expect.objectContaining({
         recipientUserId: "requester-1",
-        title: "Vehicle booking cancelled",
+        title: "รายการใช้รถถูกยกเลิก",
       }),
     });
     expect(tx.writes).toContainEqual({
@@ -102,6 +102,6 @@ describe("admin vehicle booking cancellation service", () => {
         now: () => now,
         prisma: createPrisma(tx),
       }),
-    ).rejects.toThrow("Only future vehicle bookings can be cancelled by admin.");
+    ).rejects.toThrow("ยกเลิกได้เฉพาะรายการใช้รถในอนาคต");
   });
 });

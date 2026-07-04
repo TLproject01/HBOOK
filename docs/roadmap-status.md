@@ -1,17 +1,17 @@
 # Roadmap Status
 
-Last updated: 2026-07-04
+Last updated: 2026-07-05
 
-## Phase 0: Rebuild Foundation
+## Foundation
 
 Status: Complete
 
-- Clean Next.js App Router foundation
+- Clean Next.js App Router project setup
 - TypeScript, Tailwind CSS, ESLint, Vitest, Playwright
 - React Big Calendar selected for calendar UI
 - Supabase environment template
 
-## Phase 1: Core Architecture
+## Core Architecture
 
 Status: Complete
 
@@ -23,7 +23,7 @@ Status: Complete
 - Audit log and notification helpers
 - Baseline RLS and storage SQL
 
-## Phase 2: Admin Master Data
+## Admin Master Data
 
 Status: Complete
 
@@ -55,7 +55,7 @@ Remaining:
 
 - None. Room image upload UI is not required by the current requirements.
 
-## Phase 3: Vehicle Booking
+## Vehicle Booking
 
 Status: Complete
 
@@ -89,7 +89,7 @@ Remaining:
 
 - None. Core vehicle booking workflows write audit events.
 
-## Phase 4: Meeting Room Booking
+## Meeting Room Booking
 
 Status: Complete
 
@@ -112,7 +112,7 @@ Remaining:
 
 - None. Core room booking workflows write audit events.
 
-## Phase 5: Reports
+## Reports
 
 Status: Complete
 
@@ -120,15 +120,15 @@ Status: Complete
 - Excel export with Vehicle and Meeting Room sheets
 - Export audit log
 
-## Phase 6: QA and UAT
+## QA and UAT
 
-Status: Ready for UAT
+Status: Ready for Owner UAT after the latest code is pushed and Vercel redeploys
 
 - Unit coverage covers availability, booking services, admin updates, notifications, reports, and recurrence helpers.
 - `docs/qa-uat-checklist.md` defines the manual UAT checklist.
 - `docs/release-handoff.md` defines release handoff notes.
 - Supabase project `HBOOK` has schema, RLS policies, storage buckets, and security advisor fixes applied.
-- Final verification passed on 2026-07-04:
+- Final local verification passed on 2026-07-05:
   - `corepack.cmd pnpm typecheck`
   - `corepack.cmd pnpm lint`
   - `corepack.cmd pnpm test`

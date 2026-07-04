@@ -33,11 +33,11 @@ export default async function DriversPage() {
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-          Admin
+          ผู้ดูแลระบบ
         </p>
-        <h1 className="mt-2 text-3xl font-semibold text-slate-950">Drivers</h1>
+        <h1 className="mt-2 text-3xl font-semibold text-slate-950">ข้อมูลคนขับ</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Manage driver records and map which vehicles each driver can operate.
+          จัดการข้อมูลคนขับและผูกรถที่คนขับแต่ละคนสามารถขับได้
         </p>
       </div>
 
@@ -52,13 +52,13 @@ export default async function DriversPage() {
               <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
                 <UserRoundPlus aria-hidden className="h-5 w-5" />
               </span>
-              <h2 className="text-base font-semibold text-slate-950">Create driver</h2>
+              <h2 className="text-base font-semibold text-slate-950">เพิ่มคนขับ</h2>
             </div>
             <div className="mt-5 space-y-4">
-              <Field label="Driver name" name="name" />
-              <Field label="Phone number" name="phone" />
+              <Field label="ชื่อคนขับ" name="name" />
+              <Field label="เบอร์โทร" name="phone" />
               <label className="block">
-                <span className="text-sm font-medium text-slate-700">Photo</span>
+                <span className="text-sm font-medium text-slate-700">รูปถ่ายคนขับ</span>
                 <input
                   accept="image/jpeg,image/png,image/webp"
                   className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
@@ -71,7 +71,7 @@ export default async function DriversPage() {
               className="mt-5 w-full rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
               type="submit"
             >
-              Create driver
+              เพิ่มคนขับ
             </button>
           </form>
 
@@ -83,10 +83,10 @@ export default async function DriversPage() {
               <span className="flex h-9 w-9 items-center justify-center rounded-md bg-blue-50 text-blue-700">
                 <Link2 aria-hidden className="h-5 w-5" />
               </span>
-              <h2 className="text-base font-semibold text-slate-950">Map driver to vehicle</h2>
+              <h2 className="text-base font-semibold text-slate-950">ผูกคนขับกับรถ</h2>
             </div>
             <label className="mt-5 block">
-              <span className="text-sm font-medium text-slate-700">Driver</span>
+              <span className="text-sm font-medium text-slate-700">คนขับ</span>
               <select
                 className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                 name="driverId"
@@ -101,7 +101,7 @@ export default async function DriversPage() {
               </select>
             </label>
             <label className="mt-4 block">
-              <span className="text-sm font-medium text-slate-700">Vehicle</span>
+              <span className="text-sm font-medium text-slate-700">รถ</span>
               <select
                 className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                 name="vehicleId"
@@ -117,7 +117,7 @@ export default async function DriversPage() {
               className="mt-5 w-full rounded-md border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-medium text-blue-800"
               type="submit"
             >
-              Save mapping
+              บันทึกการผูกข้อมูล
             </button>
           </form>
         </div>
@@ -133,7 +133,7 @@ export default async function DriversPage() {
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="text-base font-semibold text-slate-950">{driver.name}</h2>
                     <span className="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
-                      {driver.isActive ? "Active" : "Inactive"}
+                      {driver.isActive ? "ใช้งานอยู่" : "ปิดใช้งาน"}
                     </span>
                   </div>
                   <p className="mt-2 text-sm text-slate-600">{driver.phone}</p>
@@ -146,13 +146,13 @@ export default async function DriversPage() {
                 <div className="flex justify-start gap-2 lg:justify-end">
                   <form action={toggleDriverStatusAction}>
                     <input name="id" type="hidden" value={driver.id} />
-                    <IconButton label={driver.isActive ? "Deactivate" : "Activate"} tone="neutral">
+                    <IconButton label={driver.isActive ? "ปิดใช้งาน" : "เปิดใช้งาน"} tone="neutral">
                       <Power aria-hidden className="h-4 w-4" />
                     </IconButton>
                   </form>
                   <form action={softDeleteDriverAction}>
                     <input name="id" type="hidden" value={driver.id} />
-                    <IconButton label="Soft delete" tone="danger">
+                    <IconButton label="ลบคนขับ" tone="danger">
                       <Trash2 aria-hidden className="h-4 w-4" />
                     </IconButton>
                   </form>
@@ -164,10 +164,10 @@ export default async function DriversPage() {
                 encType="multipart/form-data"
               >
                 <input name="id" type="hidden" value={driver.id} />
-                <Field defaultValue={driver.name} label="Driver name" name="name" />
-                <Field defaultValue={driver.phone} label="Phone number" name="phone" />
+                <Field defaultValue={driver.name} label="ชื่อคนขับ" name="name" />
+                <Field defaultValue={driver.phone} label="เบอร์โทร" name="phone" />
                 <label className="block sm:col-span-2">
-                  <span className="text-sm font-medium text-slate-700">Replace photo</span>
+                  <span className="text-sm font-medium text-slate-700">เปลี่ยนรูปถ่ายคนขับ</span>
                   <input
                     accept="image/jpeg,image/png,image/webp"
                     className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
@@ -179,14 +179,14 @@ export default async function DriversPage() {
                   className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 sm:col-span-2"
                   type="submit"
                 >
-                  Save driver
+                  บันทึกข้อมูลคนขับ
                 </button>
               </form>
             </article>
           ))}
 
           <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 className="text-base font-semibold text-slate-950">Driver-vehicle mappings</h2>
+            <h2 className="text-base font-semibold text-slate-950">รายการผูกคนขับกับรถ</h2>
             <div className="mt-4 divide-y divide-slate-200">
               {mappings.map((mapping) => (
                 <div className="flex items-center justify-between gap-3 py-3" key={mapping.id}>
@@ -198,7 +198,7 @@ export default async function DriversPage() {
                   </div>
                   <form action={deleteDriverVehicleMappingAction}>
                     <input name="id" type="hidden" value={mapping.id} />
-                    <IconButton label="Remove mapping" tone="danger">
+                    <IconButton label="ลบการผูกข้อมูล" tone="danger">
                       <X aria-hidden className="h-4 w-4" />
                     </IconButton>
                   </form>

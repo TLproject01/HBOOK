@@ -131,7 +131,7 @@ async function moveRoomBooking(input: {
     const movedAt = now();
 
     if (booking.startAt <= movedAt) {
-      throw new Error("Only future room bookings can be moved.");
+      throw new Error("ย้ายได้เฉพาะการจองห้องในอนาคต");
     }
 
     const room = await tx.meetingRoom.findFirstOrThrow({
@@ -145,7 +145,7 @@ async function moveRoomBooking(input: {
     const available = await checkRoomAvailable(tx, room.id, range, booking.id);
 
     if (!available) {
-      throw new Error("Room is unavailable for the selected time range.");
+      throw new Error("ห้องประชุมไม่ว่างในช่วงเวลาที่เลือก");
     }
 
     const updated = await tx.roomBooking.update({
@@ -165,8 +165,8 @@ async function moveRoomBooking(input: {
       await tx.notification.create({
         data: {
           recipientUserId: booking.requesterUserId,
-          title: "Room booking moved",
-          message: `Your room booking was moved to ${room.name}.`,
+          title: "รายการจองห้องถูกปรับกำหนดการ",
+          message: `รายการจองห้องถูกย้ายไปที่ ${room.name} แล้ว`,
           module: ModuleName.ROOM_BOOKING,
           entityType: "room_booking",
           entityId: booking.id,

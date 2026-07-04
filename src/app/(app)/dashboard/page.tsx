@@ -1,29 +1,65 @@
 import { CalendarDays, Car, DoorOpen, Users } from "lucide-react";
+import { VehicleBookingStatus, RoomBookingStatus } from "@prisma/client";
 
 import { requireCurrentUser } from "@/lib/auth/current-user";
-
-const summaryCards = [
-  { label: "Pending vehicle requests", value: "0", icon: Car },
-  { label: "Today vehicle bookings", value: "0", icon: CalendarDays },
-  { label: "Today room bookings", value: "0", icon: DoorOpen },
-  { label: "Active users", value: "0", icon: Users },
-];
+import { getPrisma } from "@/lib/db/prisma";
 
 export default async function DashboardPage() {
   const user = await requireCurrentUser();
+  const prisma = getPrisma();
+  const now = new Date();
+  const startOfDay = new Date(now);
+  startOfDay.setHours(0, 0, 0, 0);
+  const endOfDay = new Date(now);
+  endOfDay.setHours(23, 59, 59, 999);
+
+  const [
+    pendingVehicleRequests,
+    todayVehicleBookings,
+    todayRoomBookings,
+    activeUsers,
+  ] = await Promise.all([
+    prisma.vehicleBooking.count({
+      where: { status: VehicleBookingStatus.PENDING },
+    }),
+    prisma.vehicleBooking.count({
+      where: {
+        status: VehicleBookingStatus.APPROVED,
+        startAt: { lte: endOfDay },
+        endAt: { gte: startOfDay },
+      },
+    }),
+    prisma.roomBooking.count({
+      where: {
+        status: RoomBookingStatus.APPROVED,
+        startAt: { lte: endOfDay },
+        endAt: { gte: startOfDay },
+      },
+    }),
+    prisma.user.count({
+      where: { isActive: true, deletedAt: null },
+    }),
+  ]);
+
+  const summaryCards = [
+    { label: "คำขอใช้รถรออนุมัติ", value: pendingVehicleRequests, icon: Car },
+    { label: "รายการใช้รถวันนี้", value: todayVehicleBookings, icon: CalendarDays },
+    { label: "การจองห้องวันนี้", value: todayRoomBookings, icon: DoorOpen },
+    { label: "ผู้ใช้งานที่เปิดใช้งาน", value: activeUsers, icon: Users },
+  ];
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-            Dashboard
+            HBOOK
           </p>
-          <h1 className="mt-2 text-3xl font-semibold text-slate-950">Booking overview</h1>
-          <p className="mt-2 text-sm text-slate-600">Signed in as {user.name}</p>
+          <h1 className="mt-2 text-3xl font-semibold text-slate-950">ภาพรวมการจอง</h1>
+          <p className="mt-2 text-sm text-slate-600">ลงชื่อเข้าใช้ในชื่อ {user.name}</p>
         </div>
         <div className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600">
-          Notification bell foundation
+          ข้อมูลอัปเดตตามรายการจองจริง
         </div>
       </div>
 
@@ -40,7 +76,7 @@ export default async function DashboardPage() {
                 <Icon aria-hidden className="h-5 w-5 text-teal-700" />
               </div>
               <p className="mt-5 font-mono text-3xl font-semibold text-slate-950">
-                {card.value}
+                {card.value.toLocaleString("th-TH")}
               </p>
             </article>
           );

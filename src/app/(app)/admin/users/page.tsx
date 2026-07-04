@@ -32,11 +32,11 @@ export default async function UsersPage() {
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-          Admin
+          ผู้ดูแลระบบ
         </p>
-        <h1 className="mt-2 text-3xl font-semibold text-slate-950">Users</h1>
+        <h1 className="mt-2 text-3xl font-semibold text-slate-950">ผู้ใช้งาน</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Create Supabase Auth users and maintain their booking profiles.
+          เพิ่มผู้ใช้งาน กำหนดสิทธิ์ และดูแลข้อมูลติดต่อสำหรับการจอง
         </p>
       </div>
 
@@ -49,27 +49,27 @@ export default async function UsersPage() {
             <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
               <UserPlus aria-hidden className="h-5 w-5" />
             </span>
-            <h2 className="text-base font-semibold text-slate-950">Create user</h2>
+            <h2 className="text-base font-semibold text-slate-950">เพิ่มผู้ใช้งาน</h2>
           </div>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            <Field label="Employee code" name="employeeCode" />
-            <Field label="Username" name="username" />
-            <Field className="sm:col-span-2" label="Full name" name="name" />
-            <Field className="sm:col-span-2" label="Email" name="email" type="email" />
-            <Field label="Phone" name="phone" required={false} />
+            <Field label="รหัสพนักงาน" name="employeeCode" />
+            <Field label="ชื่อผู้ใช้" name="username" />
+            <Field className="sm:col-span-2" label="ชื่อ-นามสกุล" name="name" />
+            <Field className="sm:col-span-2" label="อีเมล" name="email" type="email" />
+            <Field label="เบอร์โทร" name="phone" required={false} />
             <label className="block">
-              <span className="text-sm font-medium text-slate-700">Role</span>
+              <span className="text-sm font-medium text-slate-700">สิทธิ์ใช้งาน</span>
               <select
                 className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                 name="role"
               >
-                <option value={UserRole.USER}>User</option>
-                <option value={UserRole.ADMIN}>Admin</option>
+                <option value={UserRole.USER}>ผู้ใช้งาน</option>
+                <option value={UserRole.ADMIN}>ผู้ดูแลระบบ</option>
               </select>
             </label>
             <label className="block sm:col-span-2">
-              <span className="text-sm font-medium text-slate-700">Department</span>
+              <span className="text-sm font-medium text-slate-700">หน่วยงาน</span>
               <select
                 className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                 name="departmentId"
@@ -84,7 +84,7 @@ export default async function UsersPage() {
             </label>
             <Field
               className="sm:col-span-2"
-              label="Initial password"
+              label="รหัสผ่านเริ่มต้น"
               name="initialPassword"
               type="password"
             />
@@ -94,7 +94,7 @@ export default async function UsersPage() {
             className="mt-5 w-full rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
             type="submit"
           >
-            Create Supabase user
+            เพิ่มผู้ใช้งาน
           </button>
         </form>
 
@@ -109,14 +109,14 @@ export default async function UsersPage() {
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="text-base font-semibold text-slate-950">{user.name}</h2>
                     <span className="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
-                      {user.role}
+                      {user.role === UserRole.ADMIN ? "ผู้ดูแลระบบ" : "ผู้ใช้งาน"}
                     </span>
                     <span className="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
-                      {user.isActive ? "Active" : "Inactive"}
+                      {user.isActive ? "ใช้งานอยู่" : "ปิดใช้งาน"}
                     </span>
                     {user.mustChangePassword ? (
                       <span className="rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-800">
-                        Must change password
+                        ต้องเปลี่ยนรหัสผ่าน
                       </span>
                     ) : null}
                   </div>
@@ -133,12 +133,12 @@ export default async function UsersPage() {
                       defaultValue={user.role}
                       name="role"
                     >
-                      <option value={UserRole.USER}>User</option>
-                      <option value={UserRole.ADMIN}>Admin</option>
+                      <option value={UserRole.USER}>ผู้ใช้งาน</option>
+                      <option value={UserRole.ADMIN}>ผู้ดูแลระบบ</option>
                     </select>
                     <button
                       className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-300 text-slate-700"
-                      title="Update role"
+                      title="บันทึกสิทธิ์"
                       type="submit"
                     >
                       <Shield aria-hidden className="h-4 w-4" />
@@ -150,12 +150,12 @@ export default async function UsersPage() {
                     <input
                       className="h-9 w-36 rounded-md border border-slate-300 px-2 text-sm"
                       name="newPassword"
-                      placeholder="New password"
+                      placeholder="รหัสผ่านใหม่"
                       type="password"
                     />
                     <button
                       className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-300 text-slate-700"
-                      title="Reset password"
+                      title="รีเซ็ตรหัสผ่าน"
                       type="submit"
                     >
                       <KeyRound aria-hidden className="h-4 w-4" />
@@ -166,7 +166,7 @@ export default async function UsersPage() {
                     <input name="id" type="hidden" value={user.id} />
                     <button
                       className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-300 text-slate-700"
-                      title={user.isActive ? "Deactivate" : "Activate"}
+                      title={user.isActive ? "ปิดใช้งาน" : "เปิดใช้งาน"}
                       type="submit"
                     >
                       <Power aria-hidden className="h-4 w-4" />
@@ -177,7 +177,7 @@ export default async function UsersPage() {
                     <input name="id" type="hidden" value={user.id} />
                     <button
                       className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-red-200 text-red-700"
-                      title="Soft delete"
+                      title="ลบผู้ใช้งาน"
                       type="submit"
                     >
                       <Trash2 aria-hidden className="h-4 w-4" />
@@ -190,29 +190,29 @@ export default async function UsersPage() {
                 className="mt-5 grid gap-3 border-t border-slate-200 pt-4 sm:grid-cols-2"
               >
                 <input name="id" type="hidden" value={user.id} />
-                <Field defaultValue={user.employeeCode} label="Employee code" name="employeeCode" />
-                <Field defaultValue={user.username} label="Username" name="username" />
+                <Field defaultValue={user.employeeCode} label="รหัสพนักงาน" name="employeeCode" />
+                <Field defaultValue={user.username} label="ชื่อผู้ใช้" name="username" />
                 <Field
                   className="sm:col-span-2"
                   defaultValue={user.name}
-                  label="Full name"
+                  label="ชื่อ-นามสกุล"
                   name="name"
                 />
                 <Field
                   className="sm:col-span-2"
                   defaultValue={user.email ?? ""}
-                  label="Email"
+                  label="อีเมล"
                   name="email"
                   type="email"
                 />
                 <Field
                   defaultValue={user.phone ?? ""}
-                  label="Phone"
+                  label="เบอร์โทร"
                   name="phone"
                   required={false}
                 />
                 <label className="block">
-                  <span className="text-sm font-medium text-slate-700">Department</span>
+                  <span className="text-sm font-medium text-slate-700">หน่วยงาน</span>
                   <select
                     className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2"
                     defaultValue={user.departmentId}
@@ -230,7 +230,7 @@ export default async function UsersPage() {
                   className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 sm:col-span-2"
                   type="submit"
                 >
-                  Save profile
+                  บันทึกข้อมูลผู้ใช้
                 </button>
               </form>
             </article>

@@ -24,11 +24,11 @@ export default async function AdminRoomBookingsPage() {
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-          Admin
+          ผู้ดูแลระบบ
         </p>
-        <h1 className="mt-2 text-3xl font-semibold text-slate-950">Room booking review</h1>
+        <h1 className="mt-2 text-3xl font-semibold text-slate-950">จัดการการจองห้อง</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Cancel future room bookings when rooms become unavailable.
+          ย้ายหรือยกเลิกรายการจองในอนาคตเมื่อห้องประชุมไม่พร้อมใช้งาน
         </p>
       </div>
 
@@ -44,10 +44,10 @@ export default async function AdminRoomBookingsPage() {
                   {booking.meetingTitle} - {booking.roomNameSnapshot}
                 </h2>
                 <p className="mt-2 text-sm text-slate-600">
-                  {formatDateTime(booking.startAt)} to {formatDateTime(booking.endAt)}
+                  {formatDateTime(booking.startAt)} ถึง {formatDateTime(booking.endAt)}
                 </p>
                 <p className="mt-2 text-sm text-slate-600">
-                  Requested by {booking.requesterNameSnapshot}, {booking.departmentNameSnapshot}
+                  ผู้จอง {booking.requesterNameSnapshot}, {booking.departmentNameSnapshot}
                 </p>
               </div>
 
@@ -60,7 +60,7 @@ export default async function AdminRoomBookingsPage() {
                       className="inline-flex w-full items-center justify-center rounded-md border border-teal-200 px-3 py-2 text-sm font-medium text-teal-700"
                       type="submit"
                     >
-                      Move booking
+                      ย้ายการจอง
                     </button>
                   </form>
                   <form action={cancelRoomBookingByAdminAction} className="space-y-3">
@@ -68,7 +68,7 @@ export default async function AdminRoomBookingsPage() {
                     <textarea
                       className="min-h-20 w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
                       name="cancelReason"
-                      placeholder="Cancel reason"
+                      placeholder="เหตุผลที่ยกเลิก"
                       required
                     />
                     <button
@@ -76,7 +76,7 @@ export default async function AdminRoomBookingsPage() {
                       type="submit"
                     >
                       <XCircle aria-hidden className="h-4 w-4" />
-                      Cancel booking
+                      ยกเลิกการจอง
                     </button>
                   </form>
                 </div>
@@ -134,7 +134,7 @@ function toDateTimeLocalValue(date: Date) {
 }
 
 function formatDateTime(date: Date) {
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("th-TH", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(date);

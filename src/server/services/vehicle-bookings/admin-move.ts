@@ -107,7 +107,7 @@ export async function moveVehicleBookingByAdmin(input: MoveVehicleBookingByAdmin
     const movedAt = now();
 
     if (booking.startAt <= movedAt) {
-      throw new Error("Only future vehicle bookings can be moved by admin.");
+      throw new Error("ย้ายได้เฉพาะรายการใช้รถในอนาคต");
     }
 
     const vehicle = await tx.vehicle.findFirstOrThrow({
@@ -119,18 +119,18 @@ export async function moveVehicleBookingByAdmin(input: MoveVehicleBookingByAdmin
     });
 
     if (input.passengerCount > vehicle.seatCapacity) {
-      throw new Error("Passenger count exceeds vehicle seat capacity.");
+      throw new Error("จำนวนผู้โดยสารเกินจำนวนที่นั่งของรถ");
     }
 
     if (vehicle.driverOption === DriverOption.SELF_DRIVE_ONLY && input.assignedDriverId) {
-      throw new Error("This vehicle is self-drive only.");
+      throw new Error("รถคันนี้เป็นรถขับเองเท่านั้น");
     }
 
     const range = { startAt: input.startAt, endAt: input.endAt };
     const vehicleAvailable = await checkVehicleAvailable(tx, vehicle.id, range, booking.id);
 
     if (!vehicleAvailable) {
-      throw new Error("Vehicle is unavailable for the selected time range.");
+      throw new Error("รถไม่ว่างในช่วงเวลาที่เลือก");
     }
 
     const driver = input.assignedDriverId
@@ -146,14 +146,14 @@ export async function moveVehicleBookingByAdmin(input: MoveVehicleBookingByAdmin
       : null;
 
     if (input.assignedDriverId && !driver) {
-      throw new Error("Selected driver is not active or is not mapped to this vehicle.");
+      throw new Error("คนขับที่เลือกไม่ได้เปิดใช้งานหรือยังไม่ได้ผูกกับรถคันนี้");
     }
 
     if (driver) {
       const driverAvailable = await checkDriverAvailable(tx, driver.id, range, booking.id);
 
       if (!driverAvailable) {
-        throw new Error("Selected driver is unavailable for the selected time range.");
+        throw new Error("คนขับที่เลือกไม่ว่างในช่วงเวลานี้");
       }
     }
 
@@ -176,8 +176,8 @@ export async function moveVehicleBookingByAdmin(input: MoveVehicleBookingByAdmin
     await tx.notification.create({
       data: {
         recipientUserId: booking.requesterUserId,
-        title: "Vehicle booking moved",
-        message: `Your booking for ${vehicle.licensePlate} was moved.`,
+        title: "รายการใช้รถถูกปรับกำหนดการ",
+        message: `รายการใช้รถ ${vehicle.licensePlate} ถูกปรับกำหนดการแล้ว`,
         module: ModuleName.VEHICLE_BOOKING,
         entityType: "vehicle_booking",
         entityId: booking.id,

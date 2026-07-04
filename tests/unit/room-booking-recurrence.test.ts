@@ -56,6 +56,6 @@ describe("room booking recurrence", () => {
         recurrenceType: RecurrenceType.WEEKLY,
         startAt: new Date("2026-07-04T09:00:00.000Z"),
       }),
-    ).toThrow("Occurrence count must be positive.");
+    ).toThrow("จำนวนครั้งต้องมากกว่า 0");
   });
 });

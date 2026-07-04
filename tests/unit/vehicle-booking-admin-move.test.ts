@@ -118,7 +118,7 @@ describe("admin vehicle booking move service", () => {
       type: "notification.create",
       data: expect.objectContaining({
         recipientUserId: "requester-1",
-        title: "Vehicle booking moved",
+        title: "รายการใช้รถถูกปรับกำหนดการ",
       }),
     });
     expect(tx.writes).toContainEqual({
@@ -148,7 +148,7 @@ describe("admin vehicle booking move service", () => {
         vehicleId: "vehicle-2",
         ...nextRange,
       }),
-    ).rejects.toThrow("Only future vehicle bookings can be moved by admin.");
+    ).rejects.toThrow("ย้ายได้เฉพาะรายการใช้รถในอนาคต");
   });
 
   it("rejects moving when the target vehicle is unavailable excluding the current booking", async () => {
@@ -170,7 +170,7 @@ describe("admin vehicle booking move service", () => {
         vehicleId: "vehicle-2",
         ...nextRange,
       }),
-    ).rejects.toThrow("Vehicle is unavailable for the selected time range.");
+    ).rejects.toThrow("รถไม่ว่างในช่วงเวลาที่เลือก");
 
     expect(availabilityCalls[0]).toEqual([tx, "vehicle-2", nextRange, "booking-1"]);
   });

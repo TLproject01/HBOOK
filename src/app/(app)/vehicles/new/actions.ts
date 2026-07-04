@@ -41,11 +41,11 @@ export async function createVehicleBookingAction(formData: FormData) {
     });
 
     if (parsed.passengerCount > vehicle.seatCapacity) {
-      throw new Error("Passenger count exceeds vehicle seat capacity.");
+      throw new Error("จำนวนผู้โดยสารเกินจำนวนที่นั่งของรถ");
     }
 
     if (vehicle.driverOption === DriverOption.SELF_DRIVE_ONLY && parsed.needDriver) {
-      throw new Error("This vehicle is self-drive only.");
+      throw new Error("รถคันนี้เป็นรถขับเองเท่านั้น");
     }
 
     const available = await isVehicleAvailable(tx, vehicle.id, {
@@ -54,7 +54,7 @@ export async function createVehicleBookingAction(formData: FormData) {
     });
 
     if (!available) {
-      throw new Error("Vehicle is unavailable for the selected time range.");
+      throw new Error("รถไม่ว่างในช่วงเวลาที่เลือก");
     }
 
     const created = await tx.vehicleBooking.create({
@@ -98,8 +98,8 @@ export async function createVehicleBookingAction(formData: FormData) {
       admins.map((admin) =>
         createNotification(tx, {
           recipientUserId: admin.id,
-          title: "New vehicle request",
-          message: `${user.name} requested ${vehicle.licensePlate}.`,
+          title: "คำขอใช้รถใหม่",
+          message: `${user.name} ส่งคำขอใช้รถ ${vehicle.licensePlate}`,
           module: ModuleName.VEHICLE_BOOKING,
           entityType: "vehicle_booking",
           entityId: created.id,

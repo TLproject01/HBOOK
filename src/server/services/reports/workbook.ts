@@ -41,7 +41,7 @@ export type BookingReportWorkbookInput = {
 
 export async function buildBookingReportWorkbook(input: BookingReportWorkbookInput) {
   const workbook = new ExcelJS.Workbook();
-  workbook.creator = "Booking System";
+  workbook.creator = "HBOOK";
   workbook.created = new Date();
 
   addSheet(workbook, "Vehicle", [

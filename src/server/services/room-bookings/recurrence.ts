@@ -16,7 +16,7 @@ export function buildRoomBookingOccurrences(
   input: BuildRoomBookingOccurrencesInput,
 ): RoomBookingOccurrence[] {
   if (input.occurrenceCount < 1) {
-    throw new Error("Occurrence count must be positive.");
+    throw new Error("จำนวนครั้งต้องมากกว่า 0");
   }
 
   const durationMs = input.endAt.getTime() - input.startAt.getTime();

@@ -33,11 +33,11 @@ export default async function VehicleCalendarPage() {
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
-            Vehicles
+            รถส่วนกลาง
           </p>
-          <h1 className="mt-2 text-3xl font-semibold text-slate-950">Vehicle calendar</h1>
+          <h1 className="mt-2 text-3xl font-semibold text-slate-950">ตารางใช้รถ</h1>
           <p className="mt-2 text-sm text-slate-600">
-            Pending and approved vehicle requests block availability.
+            ตรวจสอบช่วงเวลาที่มีคำขอรออนุมัติและรายการใช้รถที่อนุมัติแล้ว
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -45,17 +45,17 @@ export default async function VehicleCalendarPage() {
             className="rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700"
             href="/vehicles/requests"
           >
-            My requests
+            คำขอของฉัน
           </Link>
           <Link
             className="rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
             href="/vehicles/new"
           >
-            Create request
+            ขอใช้รถ
           </Link>
         </div>
       </div>
-      <BookingCalendar emptyMessage="No pending or approved vehicle bookings found." events={events} />
+      <BookingCalendar emptyMessage="ยังไม่มีคำขอใช้รถหรือรายการใช้รถที่อนุมัติแล้ว" events={events} />
     </main>
   );
 }
