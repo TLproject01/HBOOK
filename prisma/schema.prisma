@@ -1,0 +1,311 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum DriverOption {
+  SELF_DRIVE_ONLY
+  DRIVER_OR_SELF_DRIVE
+}
+
+enum VehicleBookingStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum RoomBookingStatus {
+  APPROVED
+  CANCELLED
+}
+
+enum RecurrenceType {
+  WEEKLY
+  MONTHLY
+}
+
+enum ModuleName {
+  AUTH
+  USER
+  DEPARTMENT
+  VEHICLE
+  DRIVER
+  MEETING_ROOM
+  VEHICLE_BOOKING
+  ROOM_BOOKING
+  REPORT
+}
+
+model User {
+  id                 String    @id @db.Uuid
+  employeeCode       String    @unique @map("employee_code")
+  name               String
+  username           String    @unique
+  email              String?   @unique
+  phone              String?
+  role               UserRole  @default(USER)
+  departmentId       String    @map("department_id")
+  mustChangePassword Boolean   @default(true) @map("must_change_password")
+  isActive           Boolean   @default(true) @map("is_active")
+  deletedAt          DateTime? @map("deleted_at")
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+
+  department              Department       @relation(fields: [departmentId], references: [id])
+  requestedVehicleBookings VehicleBooking[] @relation("VehicleBookingRequester")
+  createdVehicleBookings   VehicleBooking[] @relation("VehicleBookingCreator")
+  approvedVehicleBookings  VehicleBooking[] @relation("VehicleBookingApprover")
+  cancelledVehicleBookings VehicleBooking[] @relation("VehicleBookingCanceller")
+  requestedRoomBookings    RoomBooking[]    @relation("RoomBookingRequester")
+  createdRoomBookings      RoomBooking[]    @relation("RoomBookingCreator")
+  cancelledRoomBookings    RoomBooking[]    @relation("RoomBookingCanceller")
+  recurringSeriesRequested RecurringSeries[] @relation("RecurringSeriesRequester")
+  recurringSeriesCreated   RecurringSeries[] @relation("RecurringSeriesCreator")
+  notifications            Notification[]
+  auditLogs                AuditLog[]
+
+  @@index([departmentId])
+  @@index([role])
+  @@map("profiles")
+}
+
+model Department {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  isActive  Boolean   @default(true) @map("is_active")
+  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  users User[]
+
+  @@map("departments")
+}
+
+model Vehicle {
+  id            String       @id @default(cuid())
+  model         String
+  color         String
+  licensePlate  String       @unique @map("license_plate")
+  seatCapacity  Int          @map("seat_capacity")
+  photoUrl      String?      @map("photo_url")
+  driverOption  DriverOption @map("driver_option")
+  isActive      Boolean      @default(true) @map("is_active")
+  deletedAt     DateTime?    @map("deleted_at")
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
+
+  driverMappings DriverVehicleMapping[]
+  bookings       VehicleBooking[]
+
+  @@index([isActive, deletedAt])
+  @@map("vehicles")
+}
+
+model Driver {
+  id        String    @id @default(cuid())
+  name      String
+  phone     String
+  photoUrl  String?   @map("photo_url")
+  isActive  Boolean   @default(true) @map("is_active")
+  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  vehicleMappings DriverVehicleMapping[]
+  bookings        VehicleBooking[]
+
+  @@index([isActive, deletedAt])
+  @@map("drivers")
+}
+
+model DriverVehicleMapping {
+  id        String   @id @default(cuid())
+  driverId  String   @map("driver_id")
+  vehicleId String   @map("vehicle_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  driver  Driver  @relation(fields: [driverId], references: [id])
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+
+  @@unique([driverId, vehicleId])
+  @@index([vehicleId])
+  @@map("driver_vehicle_mappings")
+}
+
+model MeetingRoom {
+  id               String    @id @default(cuid())
+  name             String    @unique
+  seatCapacity     Int       @map("seat_capacity")
+  hasTv            Boolean   @default(false) @map("has_tv")
+  hasConferenceSet Boolean   @default(false) @map("has_conference_set")
+  isActive         Boolean   @default(true) @map("is_active")
+  deletedAt        DateTime? @map("deleted_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  bookings RoomBooking[]
+
+  @@index([isActive, deletedAt])
+  @@map("meeting_rooms")
+}
+
+model VehicleBooking {
+  id            String               @id @default(cuid())
+  requesterUserId String             @map("requester_user_id") @db.Uuid
+  createdByUserId String             @map("created_by_user_id") @db.Uuid
+  vehicleId     String               @map("vehicle_id")
+  assignedDriverId String?           @map("assigned_driver_id")
+  status        VehicleBookingStatus @default(PENDING)
+  startAt       DateTime             @map("start_at")
+  endAt         DateTime             @map("end_at")
+  passengerCount Int                 @map("passenger_count")
+  needDriver    Boolean              @default(false) @map("need_driver")
+  startLocation String               @map("start_location")
+  tripPurpose   String               @map("trip_purpose")
+  contactName   String               @map("contact_name")
+  contactPhone  String               @map("contact_phone")
+  rejectReason  String?              @map("reject_reason")
+  cancelledReason String?            @map("cancelled_reason")
+  approvedByUserId String?           @map("approved_by_user_id") @db.Uuid
+  approvedAt    DateTime?            @map("approved_at")
+  cancelledByUserId String?          @map("cancelled_by_user_id") @db.Uuid
+  cancelledAt   DateTime?            @map("cancelled_at")
+  requesterNameSnapshot String       @map("requester_name_snapshot")
+  departmentNameSnapshot String      @map("department_name_snapshot")
+  vehicleModelSnapshot String        @map("vehicle_model_snapshot")
+  vehicleColorSnapshot String        @map("vehicle_color_snapshot")
+  vehicleLicensePlateSnapshot String @map("vehicle_license_plate_snapshot")
+  driverNameSnapshot String?         @map("driver_name_snapshot")
+  driverPhoneSnapshot String?        @map("driver_phone_snapshot")
+  createdAt     DateTime             @default(now()) @map("created_at")
+  updatedAt     DateTime             @updatedAt @map("updated_at")
+
+  requester       User                  @relation("VehicleBookingRequester", fields: [requesterUserId], references: [id])
+  createdBy       User                  @relation("VehicleBookingCreator", fields: [createdByUserId], references: [id])
+  approvedBy      User?                 @relation("VehicleBookingApprover", fields: [approvedByUserId], references: [id])
+  cancelledBy     User?                 @relation("VehicleBookingCanceller", fields: [cancelledByUserId], references: [id])
+  vehicle         Vehicle               @relation(fields: [vehicleId], references: [id])
+  assignedDriver  Driver?               @relation(fields: [assignedDriverId], references: [id])
+  routes          VehicleBookingRoute[]
+
+  @@index([vehicleId, startAt, endAt, status])
+  @@index([assignedDriverId, startAt, endAt, status])
+  @@index([requesterUserId, startAt])
+  @@index([status])
+  @@map("vehicle_bookings")
+}
+
+model VehicleBookingRoute {
+  id               String   @id @default(cuid())
+  vehicleBookingId String   @map("vehicle_booking_id")
+  sequence         Int
+  destination      String
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  vehicleBooking VehicleBooking @relation(fields: [vehicleBookingId], references: [id], onDelete: Cascade)
+
+  @@unique([vehicleBookingId, sequence])
+  @@map("vehicle_booking_routes")
+}
+
+model RecurringSeries {
+  id              String         @id @default(cuid())
+  module          String         @default("meeting_room")
+  recurrenceType  RecurrenceType @map("recurrence_type")
+  occurrenceCount Int            @map("occurrence_count")
+  createdByUserId String         @map("created_by_user_id") @db.Uuid
+  requesterUserId String         @map("requester_user_id") @db.Uuid
+  createdAt       DateTime       @default(now()) @map("created_at")
+
+  createdBy User @relation("RecurringSeriesCreator", fields: [createdByUserId], references: [id])
+  requester User @relation("RecurringSeriesRequester", fields: [requesterUserId], references: [id])
+  roomBookings RoomBooking[]
+
+  @@map("recurring_series")
+}
+
+model RoomBooking {
+  id             String            @id @default(cuid())
+  requesterUserId String           @map("requester_user_id") @db.Uuid
+  createdByUserId String           @map("created_by_user_id") @db.Uuid
+  roomId         String            @map("room_id")
+  recurringSeriesId String?        @map("recurring_series_id")
+  status         RoomBookingStatus @default(APPROVED)
+  startAt        DateTime          @map("start_at")
+  endAt          DateTime          @map("end_at")
+  meetingTitle   String            @map("meeting_title")
+  contactName    String            @map("contact_name")
+  contactPhone   String            @map("contact_phone")
+  cancelledByUserId String?        @map("cancelled_by_user_id") @db.Uuid
+  cancelledAt    DateTime?         @map("cancelled_at")
+  cancelledReason String?          @map("cancelled_reason")
+  requesterNameSnapshot String     @map("requester_name_snapshot")
+  departmentNameSnapshot String    @map("department_name_snapshot")
+  roomNameSnapshot String          @map("room_name_snapshot")
+  roomCapacitySnapshot Int         @map("room_capacity_snapshot")
+  roomHasTvSnapshot Boolean        @map("room_has_tv_snapshot")
+  roomHasConferenceSetSnapshot Boolean @map("room_has_conference_set_snapshot")
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+
+  requester       User             @relation("RoomBookingRequester", fields: [requesterUserId], references: [id])
+  createdBy       User             @relation("RoomBookingCreator", fields: [createdByUserId], references: [id])
+  cancelledBy     User?            @relation("RoomBookingCanceller", fields: [cancelledByUserId], references: [id])
+  room            MeetingRoom      @relation(fields: [roomId], references: [id])
+  recurringSeries RecurringSeries? @relation(fields: [recurringSeriesId], references: [id])
+
+  @@index([roomId, startAt, endAt, status])
+  @@index([requesterUserId, startAt])
+  @@index([recurringSeriesId])
+  @@map("room_bookings")
+}
+
+model Notification {
+  id              String     @id @default(cuid())
+  recipientUserId String     @map("recipient_user_id") @db.Uuid
+  title           String
+  message         String
+  module          ModuleName
+  entityType      String     @map("entity_type")
+  entityId        String     @map("entity_id")
+  isRead          Boolean    @default(false) @map("is_read")
+  createdAt       DateTime   @default(now()) @map("created_at")
+  readAt          DateTime?  @map("read_at")
+
+  recipient User @relation(fields: [recipientUserId], references: [id])
+
+  @@index([recipientUserId, isRead, createdAt])
+  @@map("notifications")
+}
+
+model AuditLog {
+  id          String     @id @default(cuid())
+  actorUserId String?    @map("actor_user_id") @db.Uuid
+  action      String
+  module      ModuleName
+  entityType  String     @map("entity_type")
+  entityId    String     @map("entity_id")
+  oldValues   Json?      @map("old_values")
+  newValues   Json?      @map("new_values")
+  ipAddress   String?    @map("ip_address")
+  userAgent   String?    @map("user_agent")
+  createdAt   DateTime   @default(now()) @map("created_at")
+
+  actor User? @relation(fields: [actorUserId], references: [id])
+
+  @@index([actorUserId])
+  @@index([module, action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
