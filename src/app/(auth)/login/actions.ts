@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { Prisma } from "@prisma/client";
 
 import { getPrisma } from "@/lib/db/prisma";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -18,25 +19,43 @@ export async function loginAction(formData: FormData) {
 
   const prisma = getPrisma();
   const identifier = parsed.data.identifier;
-  const profile = await prisma.user.findFirst({
-    where: {
-      OR: [{ username: identifier }, { email: identifier }],
-      isActive: true,
-      deletedAt: null,
-    },
-  });
+  let profile;
+
+  try {
+    profile = await prisma.user.findFirst({
+      where: {
+        OR: [{ username: identifier }, { email: identifier }],
+        isActive: true,
+        deletedAt: null,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientInitializationError) {
+      redirect("/login?error=database");
+    }
+
+    throw error;
+  }
 
   if (!profile?.email) {
     redirect("/login?error=invalid-credentials");
   }
 
-  const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.auth.signInWithPassword({
-    email: profile.email,
-    password: parsed.data.password,
-  });
+  let signInError = null;
 
-  if (error) {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { error } = await supabase.auth.signInWithPassword({
+      email: profile.email,
+      password: parsed.data.password,
+    });
+
+    signInError = error;
+  } catch {
+    redirect("/login?error=auth-service");
+  }
+
+  if (signInError) {
     redirect("/login?error=invalid-credentials");
   }
 

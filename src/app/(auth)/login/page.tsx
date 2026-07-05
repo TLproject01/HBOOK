@@ -2,7 +2,23 @@ import { CalendarDays } from "lucide-react";
 
 import { loginAction } from "./actions";
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams?: Promise<{
+    error?: string;
+  }>;
+};
+
+const errorMessages: Record<string, string> = {
+  "auth-service": "ระบบยืนยันตัวตนไม่พร้อมใช้งาน กรุณาลองใหม่อีกครั้ง",
+  database: "ระบบเชื่อมต่อฐานข้อมูลไม่ได้ กรุณาแจ้งผู้ดูแลระบบ",
+  "invalid-credentials": "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+  "invalid-input": "กรุณากรอกชื่อผู้ใช้และรหัสผ่าน",
+};
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const params = await searchParams;
+  const errorMessage = params?.error ? errorMessages[params.error] : null;
+
   return (
     <main className="grid min-h-screen bg-white text-slate-950 lg:grid-cols-[0.82fr_1.18fr]">
       <section className="hidden border-r border-slate-200 bg-slate-950 px-10 py-10 text-white lg:flex lg:flex-col lg:justify-between">
@@ -44,6 +60,12 @@ export default function LoginPage() {
             <h1 className="text-2xl font-semibold text-slate-950">HBOOK</h1>
             <p className="mt-1 text-sm text-slate-500">กรอกบัญชีเพื่อเข้าใช้งาน</p>
           </div>
+
+          {errorMessage ? (
+            <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              {errorMessage}
+            </div>
+          ) : null}
 
           <form action={loginAction} className="space-y-4">
             <label className="block">
