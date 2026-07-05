@@ -1,4 +1,4 @@
-import { CheckCircle2, Inbox } from "lucide-react";
+﻿import { CheckCircle2, Inbox } from "lucide-react";
 
 import { requireCurrentUser } from "@/lib/auth/current-user";
 import { getPrisma } from "@/lib/db/prisma";
@@ -17,7 +17,7 @@ export default async function NotificationsPage() {
   return (
     <main className="mx-auto max-w-5xl px-6 py-8">
       <div className="mb-6">
-        <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
+        <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
           แจ้งเตือน
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-slate-950">กล่องแจ้งเตือน</h1>
@@ -32,7 +32,7 @@ export default async function NotificationsPage() {
             className={`rounded-lg border p-5 shadow-sm ${
               notification.isRead
                 ? "border-slate-200 bg-white"
-                : "border-teal-200 bg-teal-50"
+                : "border-sky-200 bg-sky-50"
             }`}
             key={notification.id}
           >
@@ -46,7 +46,7 @@ export default async function NotificationsPage() {
                     className={`rounded-md px-2 py-1 text-xs font-medium ${
                       notification.isRead
                         ? "bg-slate-100 text-slate-700"
-                        : "bg-teal-700 text-white"
+                        : "bg-sky-700 text-white"
                     }`}
                   >
                     {notification.isRead ? "อ่านแล้ว" : "ยังไม่ได้อ่าน"}
@@ -62,7 +62,7 @@ export default async function NotificationsPage() {
                 <form action={markNotificationReadAction}>
                   <input name="id" type="hidden" value={notification.id} />
                   <button
-                    className="inline-flex items-center justify-center gap-2 rounded-md border border-teal-200 bg-white px-3 py-2 text-sm font-medium text-teal-700"
+                    className="inline-flex items-center justify-center gap-2 rounded-md border border-sky-200 bg-white px-3 py-2 text-sm font-medium text-sky-700"
                     type="submit"
                   >
                     <CheckCircle2 aria-hidden className="h-4 w-4" />

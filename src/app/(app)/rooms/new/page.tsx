@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowLeft, DoorOpen } from "lucide-react";
 
 import { getPrisma } from "@/lib/db/prisma";
@@ -24,7 +24,7 @@ export default async function NewRoomBookingPage() {
           <ArrowLeft aria-hidden className="h-4 w-4" />
           กลับไปตารางห้องประชุม
         </Link>
-        <p className="mt-5 text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
+        <p className="mt-5 text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
           ห้องประชุม
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-slate-950">
@@ -40,7 +40,7 @@ export default async function NewRoomBookingPage() {
         className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
       >
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-sky-50 text-sky-700">
             <DoorOpen aria-hidden className="h-5 w-5" />
           </span>
           <h2 className="text-base font-semibold text-slate-950">รายละเอียดการประชุม</h2>
@@ -91,7 +91,7 @@ export default async function NewRoomBookingPage() {
             ยกเลิก
           </Link>
           <button
-            className="rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
+            className="rounded-md bg-sky-700 px-4 py-2.5 text-sm font-medium text-white"
             type="submit"
           >
             บันทึกการจอง

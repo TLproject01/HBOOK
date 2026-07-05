@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 import { BookingCalendar } from "@/components/calendar/booking-calendar";
 import { getPrisma } from "@/lib/db/prisma";
@@ -32,7 +32,7 @@ export default async function VehicleCalendarPage() {
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
+          <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
             รถส่วนกลาง
           </p>
           <h1 className="mt-2 text-3xl font-semibold text-slate-950">ตารางใช้รถ</h1>
@@ -48,7 +48,7 @@ export default async function VehicleCalendarPage() {
             คำขอของฉัน
           </Link>
           <Link
-            className="rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
+            className="rounded-md bg-sky-700 px-4 py-2.5 text-sm font-medium text-white"
             href="/vehicles/new"
           >
             ขอใช้รถ

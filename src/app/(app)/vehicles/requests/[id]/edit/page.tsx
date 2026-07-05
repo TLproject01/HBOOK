@@ -53,7 +53,7 @@ export default async function EditVehicleRequestPage({
           <ArrowLeft aria-hidden className="h-4 w-4" />
           กลับไปคำขอของฉัน
         </Link>
-        <p className="mt-5 text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
+        <p className="mt-5 text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
           รถส่วนกลาง
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-slate-950">
@@ -70,7 +70,7 @@ export default async function EditVehicleRequestPage({
       >
         <input name="id" type="hidden" value={booking.id} />
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-sky-50 text-sky-700">
             <PencilLine aria-hidden className="h-5 w-5" />
           </span>
           <h2 className="text-base font-semibold text-slate-950">รายละเอียดการเดินทาง</h2>
@@ -168,7 +168,7 @@ export default async function EditVehicleRequestPage({
             ยกเลิก
           </Link>
           <button
-            className="rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
+            className="rounded-md bg-sky-700 px-4 py-2.5 text-sm font-medium text-white"
             type="submit"
           >
             บันทึกการแก้ไข

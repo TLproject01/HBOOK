@@ -1,4 +1,4 @@
-import { Link2, Power, Trash2, UserRoundPlus, X } from "lucide-react";
+﻿import { Link2, Power, Trash2, UserRoundPlus, X } from "lucide-react";
 
 import { getPrisma } from "@/lib/db/prisma";
 import {
@@ -32,7 +32,7 @@ export default async function DriversPage() {
   return (
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6">
-        <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
+        <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
           ผู้ดูแลระบบ
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-slate-950">ข้อมูลคนขับ</h1>
@@ -49,7 +49,7 @@ export default async function DriversPage() {
             encType="multipart/form-data"
           >
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+              <span className="flex h-9 w-9 items-center justify-center rounded-md bg-sky-50 text-sky-700">
                 <UserRoundPlus aria-hidden className="h-5 w-5" />
               </span>
               <h2 className="text-base font-semibold text-slate-950">เพิ่มคนขับ</h2>
@@ -68,7 +68,7 @@ export default async function DriversPage() {
               </label>
             </div>
             <button
-              className="mt-5 w-full rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
+              className="mt-5 w-full rounded-md bg-sky-700 px-4 py-2.5 text-sm font-medium text-white"
               type="submit"
             >
               เพิ่มคนขับ

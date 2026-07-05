@@ -1,4 +1,4 @@
-import { CheckCircle2, XCircle } from "lucide-react";
+﻿import { CheckCircle2, XCircle } from "lucide-react";
 import { DriverOption, VehicleBookingStatus } from "@prisma/client";
 
 import { getPrisma } from "@/lib/db/prisma";
@@ -44,7 +44,7 @@ export default async function AdminVehicleRequestsPage() {
   return (
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6">
-        <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
+        <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
           ผู้ดูแลระบบ
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-slate-950">
@@ -132,7 +132,7 @@ export default async function AdminVehicleRequestsPage() {
                           </label>
                         ) : null}
                         <button
-                          className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
+                          className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-sky-700 px-4 py-2.5 text-sm font-medium text-white"
                           type="submit"
                         >
                           <CheckCircle2 aria-hidden className="h-4 w-4" />
@@ -222,7 +222,7 @@ export default async function AdminVehicleRequestsPage() {
                           </select>
                         </label>
                         <button
-                          className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-teal-200 bg-white px-4 py-2.5 text-sm font-medium text-teal-700"
+                          className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-sky-200 bg-white px-4 py-2.5 text-sm font-medium text-sky-700"
                           type="submit"
                         >
                           <CheckCircle2 aria-hidden className="h-4 w-4" />

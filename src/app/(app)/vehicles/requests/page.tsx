@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { CalendarPlus, PencilLine, XCircle } from "lucide-react";
 import { VehicleBookingStatus } from "@prisma/client";
 
@@ -23,7 +23,7 @@ export default async function MyVehicleRequestsPage() {
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
+          <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
             รถส่วนกลาง
           </p>
           <h1 className="mt-2 text-3xl font-semibold text-slate-950">คำขอใช้รถของฉัน</h1>
@@ -32,7 +32,7 @@ export default async function MyVehicleRequestsPage() {
           </p>
         </div>
         <Link
-          className="inline-flex items-center gap-2 rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
+          className="inline-flex items-center gap-2 rounded-md bg-sky-700 px-4 py-2.5 text-sm font-medium text-white"
           href="/vehicles/new"
         >
           <CalendarPlus aria-hidden className="h-4 w-4" />

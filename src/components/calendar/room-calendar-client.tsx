@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import { DoorOpen, Filter } from "lucide-react";
@@ -59,7 +59,7 @@ export function RoomCalendarClient({ rooms, events }: RoomCalendarClientProps) {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <div className="flex items-center gap-2 text-sm font-semibold text-slate-950">
-              <Filter aria-hidden className="h-4 w-4 text-teal-700" />
+              <Filter aria-hidden className="h-4 w-4 text-sky-700" />
               ตัวกรองห้องประชุม
             </div>
             <p className="mt-1 text-sm text-slate-600">

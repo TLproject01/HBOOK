@@ -1,4 +1,4 @@
-import { XCircle } from "lucide-react";
+﻿import { XCircle } from "lucide-react";
 import { RoomBookingStatus } from "@prisma/client";
 
 import { getPrisma } from "@/lib/db/prisma";
@@ -23,7 +23,7 @@ export default async function AdminRoomBookingsPage() {
   return (
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6">
-        <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
+        <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
           ผู้ดูแลระบบ
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-slate-950">จัดการการจองห้อง</h1>
@@ -57,7 +57,7 @@ export default async function AdminRoomBookingsPage() {
                     <input name="id" type="hidden" value={booking.id} />
                     <RoomMoveFields booking={booking} rooms={rooms} />
                     <button
-                      className="inline-flex w-full items-center justify-center rounded-md border border-teal-200 px-3 py-2 text-sm font-medium text-teal-700"
+                      className="inline-flex w-full items-center justify-center rounded-md border border-sky-200 px-3 py-2 text-sm font-medium text-sky-700"
                       type="submit"
                     >
                       ย้ายการจอง

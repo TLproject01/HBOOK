@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowLeft, CarFront } from "lucide-react";
 import { DriverOption } from "@prisma/client";
 
@@ -25,7 +25,7 @@ export default async function NewVehicleRequestPage() {
           <ArrowLeft aria-hidden className="h-4 w-4" />
           กลับไปตารางใช้รถ
         </Link>
-        <p className="mt-5 text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
+        <p className="mt-5 text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
           รถส่วนกลาง
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-slate-950">ส่งคำขอใช้รถ</h1>
@@ -39,7 +39,7 @@ export default async function NewVehicleRequestPage() {
         className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
       >
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-50 text-teal-700">
+          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-sky-50 text-sky-700">
             <CarFront aria-hidden className="h-5 w-5" />
           </span>
           <h2 className="text-base font-semibold text-slate-950">รายละเอียดการเดินทาง</h2>
@@ -109,7 +109,7 @@ export default async function NewVehicleRequestPage() {
             ยกเลิก
           </Link>
           <button
-            className="rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
+            className="rounded-md bg-sky-700 px-4 py-2.5 text-sm font-medium text-white"
             type="submit"
           >
             ส่งคำขอ

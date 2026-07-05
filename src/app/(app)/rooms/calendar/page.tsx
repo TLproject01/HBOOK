@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 import { RoomCalendarClient } from "@/components/calendar/room-calendar-client";
 import { getPrisma } from "@/lib/db/prisma";
@@ -48,7 +48,7 @@ export default async function RoomCalendarPage() {
     <main className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
+          <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
             ห้องประชุม
           </p>
           <h1 className="mt-2 text-3xl font-semibold text-slate-950">ตารางห้องประชุม</h1>
@@ -57,7 +57,7 @@ export default async function RoomCalendarPage() {
           </p>
         </div>
         <Link
-          className="rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
+          className="rounded-md bg-sky-700 px-4 py-2.5 text-sm font-medium text-white"
           href="/rooms/new"
         >
           จองห้องประชุม

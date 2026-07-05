@@ -7,5 +7,6 @@ coverage
 playwright-report
 test-results
 tmp
+output
 *.tsbuildinfo
 dist

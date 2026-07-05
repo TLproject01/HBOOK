@@ -1,10 +1,10 @@
-import { Download } from "lucide-react";
+﻿import { Download } from "lucide-react";
 
 export default function AdminReportsPage() {
   return (
     <main className="mx-auto max-w-5xl px-6 py-8">
       <div className="mb-6">
-        <p className="text-sm font-medium uppercase tracking-[0.16em] text-teal-700">
+        <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
           ผู้ดูแลระบบ
         </p>
         <h1 className="mt-2 text-3xl font-semibold text-slate-950">รายงาน</h1>
@@ -23,7 +23,7 @@ export default function AdminReportsPage() {
           <Field label="วันที่สิ้นสุด" name="endDate" type="date" />
         </div>
         <button
-          className="mt-6 inline-flex items-center gap-2 rounded-md bg-teal-700 px-4 py-2.5 text-sm font-medium text-white"
+          className="mt-6 inline-flex items-center gap-2 rounded-md bg-sky-700 px-4 py-2.5 text-sm font-medium text-white"
           type="submit"
         >
           <Download aria-hidden className="h-4 w-4" />
