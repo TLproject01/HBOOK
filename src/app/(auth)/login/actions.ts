@@ -7,6 +7,30 @@ import { getPrisma } from "@/lib/db/prisma";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { loginSchema } from "@/lib/validation/auth";
 
+function getSafeDatabaseUrlInfo() {
+  const databaseUrl = process.env.DATABASE_URL;
+
+  if (!databaseUrl) {
+    return { present: false };
+  }
+
+  try {
+    const parsedUrl = new URL(databaseUrl);
+
+    return {
+      present: true,
+      protocol: parsedUrl.protocol,
+      username: parsedUrl.username,
+      host: parsedUrl.hostname,
+      port: parsedUrl.port || "(default)",
+      database: parsedUrl.pathname,
+      params: Array.from(parsedUrl.searchParams.keys()).sort(),
+    };
+  } catch {
+    return { present: true, parseable: false };
+  }
+}
+
 export async function loginAction(formData: FormData) {
   const parsed = loginSchema.safeParse({
     identifier: formData.get("identifier"),
@@ -31,6 +55,13 @@ export async function loginAction(formData: FormData) {
     });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientInitializationError) {
+      console.error("[loginAction] Database connection failed", {
+        errorName: error.name,
+        message: error.message,
+        clientVersion: error.clientVersion,
+        databaseUrl: getSafeDatabaseUrlInfo(),
+      });
+
       redirect("/login?error=database");
     }
 
